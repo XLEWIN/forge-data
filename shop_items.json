@@ -1,0 +1,1053 @@
+{
+  "version": 1,
+  "description": "Forge bot shop items — Poké Balls, berries, medicine, held items, vitamins, evolution stones, and TM bundles.",
+  "note": "Prices are in PokéCoins. Items not purchasable have cost: 0.",
+  "pokeballs": [
+    {
+      "id": "pokeball",
+      "name": "Regular Ball",
+      "cost": 10,
+      "catch_rate_modifier": 1.0,
+      "sell_price": 5,
+      "description": "Standard Poke Ball.",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png",
+      "emoji": "🔴"
+    },
+    {
+      "id": "greatball",
+      "name": "Great Ball",
+      "cost": 20,
+      "catch_rate_modifier": 1.5,
+      "sell_price": 10,
+      "description": "Better catch rate than a regular ball.",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/great-ball.png",
+      "emoji": "🔵"
+    },
+    {
+      "id": "ultraball",
+      "name": "Ultra Ball",
+      "cost": 25,
+      "catch_rate_modifier": 2.0,
+      "sell_price": 12,
+      "description": "High catch rate ball.",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png",
+      "emoji": "🟡"
+    },
+    {
+      "id": "repeatball",
+      "name": "Repeat Ball",
+      "cost": 25,
+      "catch_rate_modifier": 3.5,
+      "sell_price": 12,
+      "description": "Best for catching already-caught species.",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/repeat-ball.png",
+      "emoji": "🟠"
+    },
+    {
+      "id": "nestball",
+      "name": "Nest Ball",
+      "cost": 15,
+      "catch_rate_modifier": 2.0,
+      "sell_price": 7,
+      "description": "Works better on weaker Pokemon.",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nest-ball.png",
+      "emoji": "🟢"
+    },
+    {
+      "id": "duskball",
+      "name": "Dusk Ball",
+      "cost": 35,
+      "catch_rate_modifier": 3.5,
+      "sell_price": 17,
+      "description": "Works better at night or in caves.",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dusk-ball.png",
+      "emoji": "⚫"
+    },
+    {
+      "id": "monsoonball",
+      "name": "Monsoon Ball",
+      "cost": 75,
+      "catch_rate_modifier": 4.0,
+      "sell_price": 37,
+      "description": "Works best in rain or stormy weather.",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/monsoon-ball.png",
+      "emoji": "🌧️"
+    },
+    {
+      "id": "master-ball",
+      "name": "Master Ball",
+      "cost": 0,
+      "catch_rate_modifier": 255.0,
+      "sell_price": 0,
+      "retired": true,
+      "description": "The ultimate Poké Ball. Never sold — rare loot only.",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png",
+      "emoji": "🟣"
+    }
+  ],
+  "medicine": [
+    {
+      "id": "potion",
+      "name": "Potion",
+      "cost": 300,
+      "heal_amount": 20,
+      "heal_type": "hp_flat",
+      "description": "Restores 20 HP.",
+      "emoji": "💊"
+    },
+    {
+      "id": "super-potion",
+      "name": "Super Potion",
+      "cost": 700,
+      "heal_amount": 60,
+      "heal_type": "hp_flat",
+      "description": "Restores 60 HP.",
+      "emoji": "💊"
+    },
+    {
+      "id": "hyper-potion",
+      "name": "Hyper Potion",
+      "cost": 1500,
+      "heal_amount": 120,
+      "heal_type": "hp_flat",
+      "description": "Restores 120 HP.",
+      "emoji": "💊"
+    },
+    {
+      "id": "max-potion",
+      "name": "Max Potion",
+      "cost": 2500,
+      "heal_amount": 999,
+      "heal_type": "hp_full",
+      "description": "Fully restores HP.",
+      "emoji": "💊"
+    },
+    {
+      "id": "full-restore",
+      "name": "Full Restore",
+      "cost": 3000,
+      "heal_amount": 999,
+      "heal_type": "full",
+      "description": "Fully restores HP and heals all status.",
+      "emoji": "✨"
+    },
+    {
+      "id": "revive",
+      "name": "Revive",
+      "cost": 2000,
+      "heal_amount": 0.5,
+      "heal_type": "revive_half",
+      "description": "Revives a fainted Pokémon to half HP.",
+      "emoji": "💫"
+    },
+    {
+      "id": "max-revive",
+      "name": "Max Revive",
+      "cost": 4000,
+      "heal_amount": 1.0,
+      "heal_type": "revive_full",
+      "description": "Revives a fainted Pokémon to full HP.",
+      "emoji": "⭐"
+    },
+    {
+      "id": "antidote",
+      "name": "Antidote",
+      "cost": 100,
+      "heal_amount": 0,
+      "heal_type": "cure_poison",
+      "description": "Cures Poison.",
+      "emoji": "💚"
+    },
+    {
+      "id": "burn-heal",
+      "name": "Burn Heal",
+      "cost": 250,
+      "heal_amount": 0,
+      "heal_type": "cure_burn",
+      "description": "Cures Burn.",
+      "emoji": "🧊"
+    },
+    {
+      "id": "ice-heal",
+      "name": "Ice Heal",
+      "cost": 250,
+      "heal_amount": 0,
+      "heal_type": "cure_freeze",
+      "description": "Cures Freeze.",
+      "emoji": "🔥"
+    },
+    {
+      "id": "awakening",
+      "name": "Awakening",
+      "cost": 250,
+      "heal_amount": 0,
+      "heal_type": "cure_sleep",
+      "description": "Cures Sleep.",
+      "emoji": "☕"
+    },
+    {
+      "id": "paralyze-heal",
+      "name": "Paralyze Heal",
+      "cost": 200,
+      "heal_amount": 0,
+      "heal_type": "cure_paralyze",
+      "description": "Cures Paralysis.",
+      "emoji": "⚡"
+    },
+    {
+      "id": "full-heal",
+      "name": "Full Heal",
+      "cost": 600,
+      "heal_amount": 0,
+      "heal_type": "cure_all",
+      "description": "Cures all status conditions.",
+      "emoji": "💚"
+    },
+    {
+      "id": "ether",
+      "name": "Ether",
+      "cost": 1200,
+      "heal_amount": 10,
+      "heal_type": "pp_flat",
+      "description": "Restores 10 PP to one move.",
+      "emoji": "💙"
+    },
+    {
+      "id": "max-ether",
+      "name": "Max Ether",
+      "cost": 2000,
+      "heal_amount": 999,
+      "heal_type": "pp_full_one",
+      "description": "Fully restores PP of one move.",
+      "emoji": "💙"
+    },
+    {
+      "id": "elixir",
+      "name": "Elixir",
+      "cost": 3000,
+      "heal_amount": 10,
+      "heal_type": "pp_all_10",
+      "description": "Restores 10 PP to all moves.",
+      "emoji": "💜"
+    },
+    {
+      "id": "max-elixir",
+      "name": "Max Elixir",
+      "cost": 4500,
+      "heal_amount": 999,
+      "heal_type": "pp_all_full",
+      "description": "Fully restores PP of all moves.",
+      "emoji": "💜"
+    }
+  ],
+  "vitamins": [
+    {
+      "id": "hp-up",
+      "name": "HP Up",
+      "cost": 10000,
+      "stat": "hp",
+      "ev_gain": 10,
+      "description": "+10 HP EVs (max 252).",
+      "emoji": "❤️"
+    },
+    {
+      "id": "protein",
+      "name": "Protein",
+      "cost": 10000,
+      "stat": "attack",
+      "ev_gain": 10,
+      "description": "+10 ATK EVs.",
+      "emoji": "💪"
+    },
+    {
+      "id": "iron",
+      "name": "Iron",
+      "cost": 10000,
+      "stat": "defense",
+      "ev_gain": 10,
+      "description": "+10 DEF EVs.",
+      "emoji": "🛡️"
+    },
+    {
+      "id": "calcium",
+      "name": "Calcium",
+      "cost": 10000,
+      "stat": "sp_atk",
+      "ev_gain": 10,
+      "description": "+10 SP.ATK EVs.",
+      "emoji": "✨"
+    },
+    {
+      "id": "zinc",
+      "name": "Zinc",
+      "cost": 10000,
+      "stat": "sp_def",
+      "ev_gain": 10,
+      "description": "+10 SP.DEF EVs.",
+      "emoji": "🔵"
+    },
+    {
+      "id": "carbos",
+      "name": "Carbos",
+      "cost": 10000,
+      "stat": "speed",
+      "ev_gain": 10,
+      "description": "+10 SPD EVs.",
+      "emoji": "⚡"
+    },
+    {
+      "id": "pp-up",
+      "name": "PP Up",
+      "cost": 9800,
+      "stat": null,
+      "ev_gain": 0,
+      "description": "Raises max PP of a move by 20%.",
+      "emoji": "💙"
+    },
+    {
+      "id": "pp-max",
+      "name": "PP Max",
+      "cost": 19800,
+      "stat": null,
+      "ev_gain": 0,
+      "description": "Raises PP to the maximum.",
+      "emoji": "💜"
+    }
+  ],
+  "evolution_items": [
+    {
+      "id": "fire-stone",
+      "name": "Fire Stone",
+      "cost": 3000,
+      "description": "Evolves Fire-type compatible Pokémon.",
+      "emoji": "🔥"
+    },
+    {
+      "id": "water-stone",
+      "name": "Water Stone",
+      "cost": 3000,
+      "description": "Evolves Water-type compatible Pokémon.",
+      "emoji": "💧"
+    },
+    {
+      "id": "thunder-stone",
+      "name": "Thunder Stone",
+      "cost": 3000,
+      "description": "Evolves Electric-type compatible Pokémon.",
+      "emoji": "⚡"
+    },
+    {
+      "id": "leaf-stone",
+      "name": "Leaf Stone",
+      "cost": 3000,
+      "description": "Evolves Grass-type compatible Pokémon.",
+      "emoji": "🌿"
+    },
+    {
+      "id": "moon-stone",
+      "name": "Moon Stone",
+      "cost": 3000,
+      "description": "Evolves certain compatible Pokémon.",
+      "emoji": "🌙"
+    },
+    {
+      "id": "sun-stone",
+      "name": "Sun Stone",
+      "cost": 3000,
+      "description": "Evolves certain compatible Pokémon.",
+      "emoji": "☀️"
+    },
+    {
+      "id": "shiny-stone",
+      "name": "Shiny Stone",
+      "cost": 3000,
+      "description": "Evolves certain compatible Pokémon.",
+      "emoji": "✨"
+    },
+    {
+      "id": "dusk-stone",
+      "name": "Dusk Stone",
+      "cost": 3000,
+      "description": "Evolves certain compatible Pokémon.",
+      "emoji": "🌑"
+    },
+    {
+      "id": "dawn-stone",
+      "name": "Dawn Stone",
+      "cost": 3000,
+      "description": "Evolves certain compatible Pokémon.",
+      "emoji": "🌅"
+    },
+    {
+      "id": "ice-stone",
+      "name": "Ice Stone",
+      "cost": 3000,
+      "description": "Evolves certain compatible Pokémon.",
+      "emoji": "❄️"
+    },
+    {
+      "id": "oval-stone",
+      "name": "Oval Stone",
+      "cost": 3000,
+      "description": "Evolves Happiny when held.",
+      "emoji": "🥚"
+    },
+    {
+      "id": "kings-rock",
+      "name": "King's Rock",
+      "cost": 5000,
+      "description": "Evolves Slowpoke and Poliwhirl when traded.",
+      "emoji": "👑"
+    },
+    {
+      "id": "metal-coat",
+      "name": "Metal Coat",
+      "cost": 5000,
+      "description": "Evolves Onix and Scyther when traded.",
+      "emoji": "⚙️"
+    },
+    {
+      "id": "dragon-scale",
+      "name": "Dragon Scale",
+      "cost": 5000,
+      "description": "Evolves Seadra when traded.",
+      "emoji": "🐉"
+    },
+    {
+      "id": "upgrade",
+      "name": "Up-Grade",
+      "cost": 5000,
+      "description": "Evolves Porygon when traded.",
+      "emoji": "💻"
+    },
+    {
+      "id": "deep-sea-scale",
+      "name": "DeepSeaScale",
+      "cost": 5000,
+      "description": "Evolves Clamperl when traded.",
+      "emoji": "🐚"
+    },
+    {
+      "id": "deep-sea-tooth",
+      "name": "DeepSeaTooth",
+      "cost": 5000,
+      "description": "Evolves Clamperl when traded.",
+      "emoji": "🦷"
+    },
+    {
+      "id": "protector",
+      "name": "Protector",
+      "cost": 5000,
+      "description": "Evolves Rhydon when traded.",
+      "emoji": "🛡️"
+    },
+    {
+      "id": "electirizer",
+      "name": "Electirizer",
+      "cost": 5000,
+      "description": "Evolves Electabuzz when traded.",
+      "emoji": "⚡"
+    },
+    {
+      "id": "magmarizer",
+      "name": "Magmarizer",
+      "cost": 5000,
+      "description": "Evolves Magmar when traded.",
+      "emoji": "🔥"
+    },
+    {
+      "id": "dubious-disc",
+      "name": "Dubious Disc",
+      "cost": 5000,
+      "description": "Evolves Porygon2 when traded.",
+      "emoji": "💿"
+    },
+    {
+      "id": "reaper-cloth",
+      "name": "Reaper Cloth",
+      "cost": 5000,
+      "description": "Evolves Dusclops when traded.",
+      "emoji": "🪦"
+    },
+    {
+      "id": "prism-scale",
+      "name": "Prism Scale",
+      "cost": 5000,
+      "description": "Evolves Feebas when traded.",
+      "emoji": "🔮"
+    },
+    {
+      "id": "whipped-dream",
+      "name": "Whipped Dream",
+      "cost": 5000,
+      "description": "Evolves Swirlix when traded.",
+      "emoji": "🍦"
+    },
+    {
+      "id": "sachet",
+      "name": "Sachet",
+      "cost": 5000,
+      "description": "Evolves Spritzee when traded.",
+      "emoji": "🌸"
+    },
+    {
+      "id": "oval-charm",
+      "name": "Oval Charm",
+      "cost": 0,
+      "description": "Key item that improves egg generation.",
+      "emoji": "🟣",
+      "not_for_sale": true
+    },
+    {
+      "id": "razor-claw",
+      "name": "Razor Claw",
+      "cost": 5000,
+      "description": "Evolves Sneasel into Weavile.",
+      "emoji": "🗡️"
+    },
+    {
+      "id": "razor-fang",
+      "name": "Razor Fang",
+      "cost": 5000,
+      "description": "Evolves Gligar into Gliscor.",
+      "emoji": "🦷"
+    },
+    {
+      "id": "black-augurite",
+      "name": "Black Augurite",
+      "cost": 5000,
+      "description": "Evolves Scyther into Kleavor.",
+      "emoji": "🪨"
+    },
+    {
+      "id": "tart-apple",
+      "name": "Tart Apple",
+      "cost": 3000,
+      "description": "Evolves Applin into Flapple.",
+      "emoji": "🍏"
+    },
+    {
+      "id": "sweet-apple",
+      "name": "Sweet Apple",
+      "cost": 3000,
+      "description": "Evolves Applin into Appletun.",
+      "emoji": "🍎"
+    },
+    {
+      "id": "syrupy-apple",
+      "name": "Syrupy Apple",
+      "cost": 3000,
+      "description": "Evolves Applin into Dipplin.",
+      "emoji": "🍯"
+    },
+    {
+      "id": "cracked-pot",
+      "name": "Cracked Pot",
+      "cost": 3000,
+      "description": "Evolves Sinistea into Polteageist.",
+      "emoji": "🏺"
+    },
+    {
+      "id": "chipped-pot",
+      "name": "Chipped Pot",
+      "cost": 3000,
+      "description": "Evolves Sinistea into Polteageist.",
+      "emoji": "🏺"
+    },
+    {
+      "id": "auspicious-armor",
+      "name": "Auspicious Armor",
+      "cost": 3000,
+      "description": "Evolves Charcadet into Armarouge.",
+      "emoji": "🛡️"
+    },
+    {
+      "id": "malicious-armor",
+      "name": "Malicious Armor",
+      "cost": 3000,
+      "description": "Evolves Charcadet into Ceruledge.",
+      "emoji": "⚔️"
+    }
+  ],
+  "held_items": [
+    {
+      "id": "choice-band",
+      "name": "Choice Band",
+      "cost": 15000,
+      "description": "Boosts Attack by 50% but locks into one move.",
+      "emoji": "🎀"
+    },
+    {
+      "id": "choice-specs",
+      "name": "Choice Specs",
+      "cost": 15000,
+      "description": "Boosts Sp. Atk by 50% but locks into one move.",
+      "emoji": "🕶️"
+    },
+    {
+      "id": "choice-scarf",
+      "name": "Choice Scarf",
+      "cost": 15000,
+      "description": "Boosts Speed by 50% but locks into one move.",
+      "emoji": "🧣"
+    },
+    {
+      "id": "life-orb",
+      "name": "Life Orb",
+      "cost": 15000,
+      "description": "Boosts move power by 30% at the cost of HP.",
+      "emoji": "🔮"
+    },
+    {
+      "id": "focus-sash",
+      "name": "Focus Sash",
+      "cost": 10000,
+      "description": "Survive a one-hit KO with 1 HP.",
+      "emoji": "🪢"
+    },
+    {
+      "id": "rocky-helmet",
+      "name": "Rocky Helmet",
+      "cost": 8000,
+      "description": "Hurts attackers on contact.",
+      "emoji": "⛑️"
+    },
+    {
+      "id": "assault-vest",
+      "name": "Assault Vest",
+      "cost": 15000,
+      "description": "Sp. Def +50%, can only use attack moves.",
+      "emoji": "🦺"
+    },
+    {
+      "id": "eviolite",
+      "name": "Eviolite",
+      "cost": 8000,
+      "description": "Boosts Def and Sp.Def of unevolved Pokémon.",
+      "emoji": "💎"
+    },
+    {
+      "id": "leftovers",
+      "name": "Leftovers",
+      "cost": 5000,
+      "description": "Restores a little HP every turn.",
+      "emoji": "🍖"
+    },
+    {
+      "id": "black-sludge",
+      "name": "Black Sludge",
+      "cost": 5000,
+      "description": "Restores HP for Poison types, damages others.",
+      "emoji": "🖤"
+    },
+    {
+      "id": "lum-berry",
+      "name": "Lum Berry",
+      "cost": 3000,
+      "description": "Cures any status condition once.",
+      "emoji": "🍒"
+    },
+    {
+      "id": "sitrus-berry",
+      "name": "Sitrus Berry",
+      "cost": 3000,
+      "description": "Restores 25% HP when below 50% HP.",
+      "emoji": "🍋"
+    },
+    {
+      "id": "shell-bell",
+      "name": "Shell Bell",
+      "cost": 6000,
+      "description": "Restores HP equal to 1/8 of damage dealt.",
+      "emoji": "🐚"
+    },
+    {
+      "id": "weakness-policy",
+      "name": "Weakness Policy",
+      "cost": 12000,
+      "description": "Sharply raises Attack and Sp. Atk when hit super effectively.",
+      "emoji": "📋"
+    },
+    {
+      "id": "heavy-duty-boots",
+      "name": "Heavy-Duty Boots",
+      "cost": 8000,
+      "description": "Protects from entry hazards.",
+      "emoji": "👢"
+    },
+    {
+      "id": "clear-amulet",
+      "name": "Clear Amulet",
+      "cost": 10000,
+      "description": "Prevents stat reductions from opponents.",
+      "emoji": "💎"
+    }
+  ],
+  "berries": [
+    {
+      "id": "oran-berry",
+      "name": "Oran Berry",
+      "cost": 200,
+      "description": "Restores 10 HP when below 50% HP.",
+      "emoji": "🫐"
+    },
+    {
+      "id": "sitrus-berry",
+      "name": "Sitrus Berry",
+      "cost": 500,
+      "description": "Restores 25% HP when below 50% HP.",
+      "emoji": "🍋"
+    },
+    {
+      "id": "lum-berry",
+      "name": "Lum Berry",
+      "cost": 1000,
+      "description": "Cures any status condition.",
+      "emoji": "🍒"
+    },
+    {
+      "id": "cheri-berry",
+      "name": "Cheri Berry",
+      "cost": 300,
+      "description": "Cures Paralysis.",
+      "emoji": "🍓"
+    },
+    {
+      "id": "chesto-berry",
+      "name": "Chesto Berry",
+      "cost": 300,
+      "description": "Cures Sleep.",
+      "emoji": "🫐"
+    },
+    {
+      "id": "pecha-berry",
+      "name": "Pecha Berry",
+      "cost": 300,
+      "description": "Cures Poison.",
+      "emoji": "🍑"
+    },
+    {
+      "id": "rawst-berry",
+      "name": "Rawst Berry",
+      "cost": 300,
+      "description": "Cures Burn.",
+      "emoji": "🌿"
+    },
+    {
+      "id": "aspear-berry",
+      "name": "Aspear Berry",
+      "cost": 300,
+      "description": "Cures Freeze.",
+      "emoji": "🍐"
+    },
+    {
+      "id": "persim-berry",
+      "name": "Persim Berry",
+      "cost": 300,
+      "description": "Cures Confusion.",
+      "emoji": "🫐"
+    },
+    {
+      "id": "figy-berry",
+      "name": "Figy Berry",
+      "cost": 500,
+      "description": "Restores 33% HP when below 25% HP (spicy).",
+      "emoji": "🌶️"
+    },
+    {
+      "id": "wiki-berry",
+      "name": "Wiki Berry",
+      "cost": 500,
+      "description": "Restores 33% HP when below 25% HP (dry).",
+      "emoji": "🍇"
+    },
+    {
+      "id": "mago-berry",
+      "name": "Mago Berry",
+      "cost": 500,
+      "description": "Restores 33% HP when below 25% HP (sweet).",
+      "emoji": "🍓"
+    },
+    {
+      "id": "aguav-berry",
+      "name": "Aguav Berry",
+      "cost": 500,
+      "description": "Restores 33% HP when below 25% HP (bitter).",
+      "emoji": "🍈"
+    },
+    {
+      "id": "iapapa-berry",
+      "name": "Iapapa Berry",
+      "cost": 500,
+      "description": "Restores 33% HP when below 25% HP (sour).",
+      "emoji": "🫐"
+    },
+    {
+      "id": "liechi-berry",
+      "name": "Liechi Berry",
+      "cost": 3000,
+      "description": "Raises Attack when HP is low.",
+      "emoji": "🍈"
+    },
+    {
+      "id": "salac-berry",
+      "name": "Salac Berry",
+      "cost": 3000,
+      "description": "Raises Speed when HP is low.",
+      "emoji": "🍹"
+    },
+    {
+      "id": "petaya-berry",
+      "name": "Petaya Berry",
+      "cost": 3000,
+      "description": "Raises Sp. Atk when HP is low.",
+      "emoji": "🫐"
+    },
+    {
+      "id": "apicot-berry",
+      "name": "Apicot Berry",
+      "cost": 3000,
+      "description": "Raises Sp. Def when HP is low.",
+      "emoji": "🍑"
+    },
+    {
+      "id": "lansat-berry",
+      "name": "Lansat Berry",
+      "cost": 3000,
+      "description": "Raises critical hit ratio when HP is low.",
+      "emoji": "🫐"
+    },
+    {
+      "id": "starf-berry",
+      "name": "Starf Berry",
+      "cost": 5000,
+      "description": "Raises a random stat sharply when HP is low.",
+      "emoji": "⭐"
+    },
+    {
+      "id": "enigma-berry",
+      "name": "Enigma Berry",
+      "cost": 5000,
+      "description": "Restores HP when hit by a super-effective move.",
+      "emoji": "🌟"
+    },
+    {
+      "id": "jaboca-berry",
+      "name": "Jaboca Berry",
+      "cost": 5000,
+      "description": "Damages attacker when hit by a physical move.",
+      "emoji": "🫐"
+    },
+    {
+      "id": "rowap-berry",
+      "name": "Rowap Berry",
+      "cost": 5000,
+      "description": "Damages attacker when hit by a special move.",
+      "emoji": "🫐"
+    }
+  ],
+  "forge_exclusive": [
+    {
+      "id": "nova-incense",
+      "name": "Nova Incense",
+      "cost": 5000,
+      "description": "Boosts NovaBond gain for your Pokémon by 2× for 24 hours.",
+      "emoji": "🌟",
+      "duration_hours": 24
+    },
+    {
+      "id": "catch-charm",
+      "name": "Catch Charm",
+      "cost": 8000,
+      "description": "Doubles catch rate for 10 Pokémon.",
+      "emoji": "🎯",
+      "uses": 10
+    },
+    {
+      "id": "shiny-lure",
+      "name": "Shiny Lure",
+      "cost": 25000,
+      "description": "Triples shiny spawn chance for 1 hour.",
+      "emoji": "✨",
+      "duration_hours": 1
+    },
+    {
+      "id": "exp-share",
+      "name": "Exp. Share",
+      "cost": 3000,
+      "description": "Share 50% of battle EXP with your full team for 5 battles.",
+      "emoji": "📡",
+      "uses": 5
+    },
+    {
+      "id": "rare-candy",
+      "name": "Rare Candy",
+      "cost": 5000,
+      "description": "Instantly levels up a Pokémon by 1.",
+      "emoji": "🍬",
+      "uses": 1
+    },
+    {
+      "id": "nature-mint",
+      "name": "Nature Mint",
+      "cost": 8000,
+      "description": "Changes a Pokémon's active nature (cosmetic + stat effect).",
+      "emoji": "🌿",
+      "uses": 1
+    },
+    {
+      "id": "iv-booster",
+      "name": "IV Booster",
+      "cost": 12000,
+      "description": "Sets 3 random IVs to 31 for your chosen Pokémon.",
+      "emoji": "🧬",
+      "uses": 1
+    }
+  ],
+  "z_crystals": [
+    {
+      "id": "normalium-z",
+      "name": "Normalium Z",
+      "cost": 15000,
+      "description": "Upgrades Normal-type moves to Z-Moves.",
+      "emoji": "⬜",
+      "z_type": "Normal"
+    },
+    {
+      "id": "firium-z",
+      "name": "Firium Z",
+      "cost": 15000,
+      "description": "Upgrades Fire-type moves to Z-Moves.",
+      "emoji": "🔥",
+      "z_type": "Fire"
+    },
+    {
+      "id": "waterium-z",
+      "name": "Waterium Z",
+      "cost": 15000,
+      "description": "Upgrades Water-type moves to Z-Moves.",
+      "emoji": "💧",
+      "z_type": "Water"
+    },
+    {
+      "id": "electrium-z",
+      "name": "Electrium Z",
+      "cost": 15000,
+      "description": "Upgrades Electric-type moves to Z-Moves.",
+      "emoji": "⚡",
+      "z_type": "Electric"
+    },
+    {
+      "id": "grassium-z",
+      "name": "Grassium Z",
+      "cost": 15000,
+      "description": "Upgrades Grass-type moves to Z-Moves.",
+      "emoji": "🌿",
+      "z_type": "Grass"
+    },
+    {
+      "id": "icium-z",
+      "name": "Icium Z",
+      "cost": 15000,
+      "description": "Upgrades Ice-type moves to Z-Moves.",
+      "emoji": "❄️",
+      "z_type": "Ice"
+    },
+    {
+      "id": "fightinium-z",
+      "name": "Fightinium Z",
+      "cost": 15000,
+      "description": "Upgrades Fighting-type moves to Z-Moves.",
+      "emoji": "🥊",
+      "z_type": "Fighting"
+    },
+    {
+      "id": "poisonium-z",
+      "name": "Poisonium Z",
+      "cost": 15000,
+      "description": "Upgrades Poison-type moves to Z-Moves.",
+      "emoji": "☠️",
+      "z_type": "Poison"
+    },
+    {
+      "id": "groundium-z",
+      "name": "Groundium Z",
+      "cost": 15000,
+      "description": "Upgrades Ground-type moves to Z-Moves.",
+      "emoji": "🌍",
+      "z_type": "Ground"
+    },
+    {
+      "id": "flyinium-z",
+      "name": "Flyinium Z",
+      "cost": 15000,
+      "description": "Upgrades Flying-type moves to Z-Moves.",
+      "emoji": "🕊️",
+      "z_type": "Flying"
+    },
+    {
+      "id": "psychium-z",
+      "name": "Psychium Z",
+      "cost": 15000,
+      "description": "Upgrades Psychic-type moves to Z-Moves.",
+      "emoji": "🔮",
+      "z_type": "Psychic"
+    },
+    {
+      "id": "buginium-z",
+      "name": "Buginium Z",
+      "cost": 15000,
+      "description": "Upgrades Bug-type moves to Z-Moves.",
+      "emoji": "🐛",
+      "z_type": "Bug"
+    },
+    {
+      "id": "rockium-z",
+      "name": "Rockium Z",
+      "cost": 15000,
+      "description": "Upgrades Rock-type moves to Z-Moves.",
+      "emoji": "🪨",
+      "z_type": "Rock"
+    },
+    {
+      "id": "ghostium-z",
+      "name": "Ghostium Z",
+      "cost": 15000,
+      "description": "Upgrades Ghost-type moves to Z-Moves.",
+      "emoji": "👻",
+      "z_type": "Ghost"
+    },
+    {
+      "id": "dragonium-z",
+      "name": "Dragonium Z",
+      "cost": 15000,
+      "description": "Upgrades Dragon-type moves to Z-Moves.",
+      "emoji": "🐉",
+      "z_type": "Dragon"
+    },
+    {
+      "id": "darkinium-z",
+      "name": "Darkinium Z",
+      "cost": 15000,
+      "description": "Upgrades Dark-type moves to Z-Moves.",
+      "emoji": "🌑",
+      "z_type": "Dark"
+    },
+    {
+      "id": "steelium-z",
+      "name": "Steelium Z",
+      "cost": 15000,
+      "description": "Upgrades Steel-type moves to Z-Moves.",
+      "emoji": "⚙️",
+      "z_type": "Steel"
+    },
+    {
+      "id": "fairium-z",
+      "name": "Fairium Z",
+      "cost": 15000,
+      "description": "Upgrades Fairy-type moves to Z-Moves.",
+      "emoji": "🧚",
+      "z_type": "Fairy"
+    }
+  ]
+}
