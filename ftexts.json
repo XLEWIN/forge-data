@@ -1,0 +1,1001 @@
+{
+  "spawn": {
+    "timeout_text": "The wild {name} ran away... <tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji>",
+    "timeout_text_note": "Identical text at regions.py 1167 (4-min flee job), 1260 (safari flee) and 1749 (lazy expiry edit).",
+    "timeout_toast": "Hunt expired! Too slow.",
+    "ball_menu_text": "<tg-emoji emoji-id=\"5852961356864561365\">🔴</tg-emoji> <b>Choose a Pokeball</b>\n\nWild: {wild['name']} Lv.{wild.get('level', 1)}",
+    "throw_frames": {
+      "note": "hunt and battle frames are byte-identical (regions.py 1366-1372 == battle/commands.py 3176-3182). {ball_icon} = ball_tag(ball_id), {ball_name} = item display name.",
+      "hunt": {
+        "f1": "{ball_icon} You threw a {ball_name}!",
+        "f2": "{ball_icon} {ball_name} hit {wild['name']}!\n\n☆ .",
+        "f3": "{ball_icon} {ball_name} hit {wild['name']}!\n\n☆ ☆ .",
+        "break_frame": "{ball_icon} {ball_name} hit {wild['name']}!\n\n☆ ☆ X\n\nOh no! {wild['name']} broke free!",
+        "stars_frame": "{ball_icon} {ball_name} hit {wild['name']}!\n\n★ ★ ★",
+        "caught_sequence_gaps": [0.3, 0.35, 0.35, 0.3],
+        "break_sequence_gaps": [0.3, 0.35, 0.35, 0.15],
+        "caught_sequence": "[f1,0.3] -> [f2,0.35] -> [f3,0.35] -> [stars,0.3] -> send_caught_pokemon card",
+        "break_sequence": "[f1,0.3] -> [f2,0.35] -> [f3,0.35] -> [break_frame,0.15] -> result text",
+        "animation_labels": ["hunt-catch", "hunt-break"]
+      },
+      "battle": {
+        "f1": "{ball_icon} You threw a {ball_name}!",
+        "f2": "{ball_icon} {ball_name} hit {wild['name']}!\n\n☆ .",
+        "f3": "{ball_icon} {ball_name} hit {wild['name']}!\n\n☆ ☆ .",
+        "break_frame": "{ball_icon} {ball_name} hit {wild['name']}!\n\n☆ ☆ X\n\nOh no! {wild['name']} broke free!",
+        "stars_frame": "{ball_icon} {ball_name} hit {wild['name']}!\n\n★ ★ ★",
+        "caught_sequence_gaps": [0.3, 0.35, 0.35, 0.3],
+        "break_sequence_gaps": [0.3, 0.35, 0.35, 0.15],
+        "animation_labels": ["battle-catch", "battle-break", "battle-faint"],
+        "ball_menu_text": "<tg-emoji emoji-id=\"5852961356864561365\">🔴</tg-emoji> Choose a Pokéball:\n\nWild: {wild['name']} Lv.{wild.get('level', 1)}",
+        "broke_free_text": "Oh no! {wild['name']} broke free of the {ball_icon} {ball_name}!{free_log}\n\n{battle_text}",
+        "faint_text": "Oh no! {wild['name']} broke free!{free_log}\n\nYour Pokémon fainted!",
+        "free_log_variants": ["\n{wild['name']} used <b>{move['name']}</b> {dmg} dmg!", "\nDodged!", "\nAttack missed!"],
+        "broke_free_buttons": ["Throw {ball_name} (x{remaining}) -> bt|{uid}|throw|{ball_id}", "Switch Ball -> bt|{uid}|catch"]
+      }
+    },
+    "break_free_text": "Oh no! {wild['name']} broke free!\n\n{'No more ' + ball_name + 's left!' if remaining <= 0 else ''}\n{ball_name}s remaining: {remaining}",
+    "broke_free_buttons": {
+      "remaining_gt_0": ["Throw {ball_name} (x{remaining})", "Switch Ball", "Battle It"],
+      "remaining_eq_0": ["Switch Ball", "Battle It"],
+      "callback_formats": ["rg|{uid}|hunt_throw|{ball_id}", "rg|{uid}|hunt_catch", "rg|{uid}|hunt_battle"]
+    },
+    "ran_away_turns": "<tg-emoji emoji-id=\"5917935536219103066\">🚀</tg-emoji> <b>{wild['name']} ran away!</b>\n\nIt escaped into the wild...",
+    "out_of_balls": "{ball_icon} You're out of {ball_name}s!",
+    "no_balls_alert": "You have no Pokeballs! Use /shop to buy more.",
+    "already_hunting": "💨 {old_wild['name']} ran away!",
+    "already_hunting_note": "Sent only for Safari encounters (regions.py 655-662); a non-Safari hunt clears the old state silently (message stays).",
+    "battle_lock": "<tg-emoji emoji-id=\"5917806450977023726\">🔥</tg-emoji> You're in a battle! Flee or finish it first before hunting.",
+    "region_lock_text": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> <b>{region_key.title()} is locked!</b>\n\nReach Trainer Lv.<b>{need}</b> to {verb} here — you're Lv.{lv}.\n\nKanto opens at Lv.1. Use <code>/travel</code> to see the region board.",
+    "region_lock_safari_suffix": "\n\nUse <code>/exit</code> to leave the Safari.",
+    "dm_only_text": "<b>This command only works in DM.</b>",
+    "dm_button_label": "Open DM",
+    "dm_button_url": "https://t.me/{bot_username}?start=1",
+    "not_registered": "Use /start first!",
+    "ev_yield_text": {
+      "toast": "{wild['name']} EV Yield: {ev_text}",
+      "ev_text_rule": "join \"{Stat}: +{val}\" lines for every ev_yield entry with val>0 using \" | \"; when none → \"No EV yield\"",
+      "line_format": "{stat}: +{val}",
+      "empty_text": "No EV yield",
+      "stat_names": {"hp": "HP", "attack": "Atk", "defense": "Def", "sp_atk": "SpA", "sp_def": "SpD", "speed": "Spe"},
+      "evtrain_toast": "⚡ EV Training: Defeat {wild['name']} for 1-5 {stat_label} EVs!",
+      "evtrain_stat_labels": {
+        "hp": "❤️ HP",
+        "attack": "⚔️ Attack",
+        "defense": "🛡️ Defense",
+        "sp_atk": "🔮 Sp.Atk",
+        "sp_def": "<tg-emoji emoji-id=\"5918273417001313756\">🌐</tg-emoji> Sp.Def",
+        "speed": "💨 Speed"
+      }
+    },
+    "item_found_text": {
+      "normal": "{emoji} You found <b>{item_name}</b> x{qty}!\nCheck your /myinv for details.",
+      "z_crystal": "{emoji} You found <b>{item_name}</b> x{qty}!\n<tg-emoji emoji-id=\"5918152835794477491\">💎</tg-emoji> It's been stored with your Z-Crystals — equip it with /zmine."
+    },
+    "no_pokemon_area": "No Pokémon found in this area...",
+    "captcha_texts": {
+      "puzzle_caption_pick": "<img src=\"tg://photo?id=forge_captcha\"/><h4><tg-emoji emoji-id=\"5917860949817040467\">⚠️</tg-emoji> HUMAN VERIFICATION</h4><hr/><p>Tap the button that matches the picture. Nothing to type.</p><ul><li><tg-emoji emoji-id=\"5918186658661932480\">1️⃣</tg-emoji> Read the <b>3-digit code</b> in the white badge, top-right.</li><li><tg-emoji emoji-id=\"5917981200311393413\">2️⃣</tg-emoji> Read the <b>distorted word</b> in the middle.</li><li><tg-emoji emoji-id=\"5915526995868917590\">3️⃣</tg-emoji> Tap the button <code>CODE-WORD-BACKWARDS</code>.</li></ul><blockquote>Example: badge <code>123</code> + word <code>TRAIN</code> → tap <code>123-NIART</code></blockquote><hr/><p><tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> Answer with the buttons below — wait at least <b>20 seconds</b> first; an instant tap is a bot reading the image. You have <b>3 minutes</b>. Walk away and the next <code>/hunt</code> simply shows a fresh one.</p><p><tg-emoji emoji-id=\"5918260798387396946\">⚠️</tg-emoji> <b>One attempt only.</b> Too fast or wrong → locked <b>5 minutes → 15 minutes → 24 hours</b>.</p>",
+      "puzzle_caption_odd": "<img src=\"tg://photo?id=forge_captcha\"/><h4><tg-emoji emoji-id=\"5917860949817040467\">⚠️</tg-emoji> HUMAN VERIFICATION</h4><hr/><p><tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> <b>{odd_prompt}</b></p><blockquote>Four tiles are below. Tap the one that does <b>not</b> belong.</blockquote><hr/><p><tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> Answer with the buttons below — wait at least <b>20 seconds</b> first; an instant tap is a bot reading the image. You have <b>3 minutes</b>. Walk away and the next <code>/hunt</code> simply shows a fresh one.</p><p><tg-emoji emoji-id=\"5918260798387396946\">⚠️</tg-emoji> <b>One attempt only.</b> Too fast or wrong → locked <b>5 minutes → 15 minutes → 24 hours</b>.</p>",
+      "odd_prompts": [
+        "Which one is NOT an animal?",
+        "Which one is NOT a fruit?",
+        "Which one does NOT belong with the vehicles?",
+        "Which one is NOT a bird?",
+        "Which one is NOT a sea creature?",
+        "Which one is NOT a tool?",
+        "Which one is NOT a flower / plant?",
+        "Which one is NOT a drink?",
+        "Which one is NOT a sport ball?",
+        "Which one is NOT a wild cat?",
+        "Which one is NOT a musical instrument?",
+        "Which one is NOT cold / winter?",
+        "Which one is NOT a house / building?",
+        "Which one is NOT an insect?",
+        "Which one is NOT a number-ish shape?",
+        "Which one is NOT a shape?"
+      ],
+      "odd_sets": [
+        {"prompt": "Which one is NOT an animal?", "items": ["🚗", "🐕", "🐈", "🐎"], "odd_index": 0},
+        {"prompt": "Which one is NOT a fruit?", "items": ["🍎", "🍌", "🔨", "🍇"], "odd_index": 2},
+        {"prompt": "Which one does NOT belong with the vehicles?", "items": ["🚌", "🚲", "🐢", "✈️"], "odd_index": 2},
+        {"prompt": "Which one is NOT a bird?", "items": ["🦅", "🦉", "🐧", "🦊"], "odd_index": 3},
+        {"prompt": "Which one is NOT a sea creature?", "items": ["🐟", "🐙", "🦈", "🦁"], "odd_index": 3},
+        {"prompt": "Which one is NOT a tool?", "items": ["🔨", "🪛", "🔧", "🌵"], "odd_index": 3},
+        {"prompt": "Which one is NOT a flower / plant?", "items": ["🌸", "🌻", "🌵", "🍕"], "odd_index": 3},
+        {"prompt": "Which one is NOT a drink?", "items": ["☕", "🧃", "🥤", "🍩"], "odd_index": 3},
+        {"prompt": "Which one is NOT a sport ball?", "items": ["⚽", "🏀", "🎾", "🍪"], "odd_index": 3},
+        {"prompt": "Which one is NOT a wild cat?", "items": ["🐅", "🐆", "🐈", "🦓"], "odd_index": 3},
+        {"prompt": "Which one is NOT a musical instrument?", "items": ["🎸", "🎺", "🥁", "🧲"], "odd_index": 3},
+        {"prompt": "Which one is NOT cold / winter?", "items": ["❄️", "🧊", "⛄", "🔥"], "odd_index": 3},
+        {"prompt": "Which one is NOT a house / building?", "items": ["🏠", "🏫", "🏰", "🛺"], "odd_index": 3},
+        {"prompt": "Which one is NOT an insect?", "items": ["🐝", "🦋", "🐞", "🦀"], "odd_index": 3},
+        {"prompt": "Which one is NOT a number-ish shape?", "items": ["1️⃣", "2️⃣", "3️⃣", "❤️"], "odd_index": 3},
+        {"prompt": "Which one is NOT a shape?", "items": ["🔴", "🟦", "🔺", "🍓"], "odd_index": 3}
+      ],
+      "word_pool": ["TRAIN", "BLAST", "QUEST", "FLAME", "OCEAN", "STORM", "LIGHT", "MAGIC", "RIVER", "CLOUD", "TIGER", "APPLE", "ROCK", "STAR", "JUMP", "RACE", "GOLD", "FIRE", "RAIN", "WIND", "BOOK", "FROG", "KING", "WAVE", "DARK", "JOY", "LUCK", "MYTH", "EPIC", "BOLD"],
+      "answer_format": "answer = \"{3-digit code}-{word REVERSED}\" (e.g. 123-NIART for code 123 + TRAIN); 4 distinct button labels = correct + 3 decoys, shuffled; callback cap|{uid}|{nonce}|{index}",
+      "odd_button_label_format": "{i + 1}. {item}",
+      "answer_shape_regex": "^\\d{3}[- ]?[A-Za-z]{1,12}$",
+      "normalize_answer_rule": "uppercase, strip every non-alphanumeric, then drop leading zeros of the numeric code prefix (007-NIART == 7NIART)",
+      "correct_toast": "Verified ✅",
+      "wrong_toast": "Wrong ❌",
+      "pass_text": "<tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>Verified!</b> Good for the next few minutes.\nSend <code>/hunt</code> again to continue.",
+      "expired_text": "<tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> <b>Time's up — that check expired.</b>\nSend /hunt and a fresh one will appear.",
+      "expired_text_typed": "⌛ <b>Time's up — that check expired.</b>\nSend /hunt and a fresh one will appear.",
+      "expired_toast_callback": "Expired — send /hunt for a fresh check.",
+      "expired_toast_button": "Expired — send /hunt again.",
+      "too_fast_toast": "Too fast — bots only.",
+      "stale_nonce_toast": "That challenge has been replaced — send /hunt again.",
+      "wrong_owner_toast": "This captcha isn't for you.",
+      "invalid_toast": "Invalid.",
+      "strike_1": "🚫 <b>Captcha failed</b> ({why}).\nLocked for <b>{lock_txt}</b>.\nStrike <b>1/3</b> — next fail = 15 minutes.",
+      "strike_2": "🚫 <b>Captcha failed again</b> ({why}).\nLocked for <b>{lock_txt}</b>.\nStrike <b>2/3</b> — next fail = <b>24 hours</b>.",
+      "strike_3": "🔒 <b>Banned from hunting for {lock_txt}</b>.\nRepeated captcha failures ({why}).\nStrike <b>3/3</b>.",
+      "locked_out_text": "🚫 <b>Locked out — {remaining_lock} remaining.</b>\nFailed captcha (strike {min(strike, 3)}/3).",
+      "lock_format_rules": "seconds>=3600 → \"{h}h {m}m\" (or \"{h}h\" when m==0); seconds>=60 → \"{m}m {s}s\" (or \"{m}m\" when s==0); else \"{s}s\"",
+      "already_waiting_text": "⏳ A human check is already waiting above — answer that one first (or let it expire; your next /hunt shows a fresh one).",
+      "pending_text": "🤖 <b>Captcha already pending</b> — answer the last puzzle to keep hunting.\n⏱ <b>{remaining}s</b> left before it expires (a fresh one appears on your next /hunt).",
+      "format_hint_text": "✏️ Not the right format. Type <code>CODE-WORD</code>: the 3-digit code from the image corner, a dash, then the word <b>backwards</b> — code 123, TRAIN → <code>123-NIART</code>.\nWait at least <b>20s</b> before answering.",
+      "render_failed_text": "⚠️ The human check failed to render — send /hunt again.",
+      "send_failed_text": "⚠️ The human check failed to send — send /hunt again.",
+      "constants": {
+        "MIN_SOLVE_SECONDS": 20,
+        "ANSWER_TTL_SECONDS": 180,
+        "VERIFIED_TTL_SECONDS": 180,
+        "LOCKOUT_LADDER": [300, 900, 86400],
+        "strike_window_seconds": 86400,
+        "random_trigger_range": [45, 50],
+        "warmup_free_hunts": 3,
+        "rate_limit": "40 hunts in 60s forces a captcha"
+      }
+    }
+  },
+  "caught": {
+    "caught_caption": "You caught a wild {name}.",
+    "caught_buttons": [
+      {"label": "IVs", "callback": "pk|{uid}|ivev|{token}"},
+      {"label": "Rename", "callback": "pk|{uid}|nick|{token}"},
+      {"label": "Release", "callback": "pk|{uid}|release|{token}"}
+    ],
+    "callback_prefix": "pk|{uid}|{action}|{token}[|{extra}[|{ref}]]",
+    "card_formats": {
+      "ivev_page": {
+        "title": "<tg-emoji emoji-id=\"5852666434345248654\">⚡</tg-emoji> <b>{name_display}</b> — IVs &amp; EVs\n\n<code>{block}</code>",
+        "column_header": "Points        IV |  EV",
+        "separator": "————————————————————————",
+        "separator_length": 24,
+        "stat_row_format": "{label:<14}{iv:>2} | {ev:>3} {arrow}",
+        "total_row_format": "{'Total':<14}{iv_total:>2} | {ev_total:>3}",
+        "row_padding": {"label_width": 14, "iv_width": 2, "ev_width": 3},
+        "labels": {"hp": "HP", "attack": "ATK", "defense": "DEF", "sp_atk": "SP.ATK", "sp_def": "SP.DEF", "speed": "SPD"},
+        "stat_order": ["hp", "attack", "defense", "sp_atk", "sp_def", "speed"],
+        "arrow_rule": "↑ when nature.plus == stat, ↓ when nature.minus == stat, else \" \"",
+        "name_display_rule": "nickname or name"
+      },
+      "stats_page": {
+        "title": "<tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> <b>{name_display}</b> — Stats\n",
+        "column_header": "Stat          Actual",
+        "separator": "————————————————————",
+        "separator_length": 20,
+        "stat_row_format": "{label:<14}{val:>5} {arrow}",
+        "total_row_format": "{'Total':<14}{total:>5}"
+      },
+      "moves_page": {
+        "title": "<tg-emoji emoji-id=\"5915945987108511688\">✨</tg-emoji> <b>{name_display}</b> — Moves ({move_count}/{MAX_MOVES})\n",
+        "empty_text": "No moves learned yet.",
+        "move_block": "<b>{move_name}</b> {type_label}\n  Type: {type} | Pow: {power} | Acc: {accuracy} | PP: {pp}\n  Learned at Lv.{level_learned}\n",
+        "type_label_rule": "\"{Type} <tg-emoji emoji-id=...>fallback</tg-emoji>\" per type (type_label), followed by empty line after each move",
+        "MAX_MOVES": 4
+      },
+      "nickname": {
+        "step1_header": "<tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> <b>Nickname a Pokémon</b>",
+        "step1_sub": "<b>Step 1 of 3</b> — pick the Pokémon you want to rename.",
+        "step1_separator": "━━━━━━━━━━━━━━━━━━",
+        "step1_separator_length": 17,
+        "step1_line": "{i}. <b>{species}</b>  <code>Lv{level}</code>",
+        "step1_current_line": "     current: <i>{nickname}</i>",
+        "step1_empty": "You don't have any Pokémon yet.\nHatch a starter with /start, then come back.",
+        "step2_prompt": "<tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> <b>Step 2 of 3</b> — send a new nickname for <b>{species}</b>.\n\n<code>1-24</code> characters. Send <code>clear</code> to remove the current nickname, or /cancel to abort.",
+        "step3_confirm": "<tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> <b>Step 3 of 3</b> — confirm this nickname?\n\n<b>{species}</b> → <b>{value}</b>",
+        "step3_remove": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> <b>Step 3 of 3</b> — remove the nickname from <b>{species}</b>?\n\nIt will go back to being called <b>{species}</b>.",
+        "set_done": "<tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>{species}</b> is now called <b>{value}</b>!",
+        "clear_done": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> <b>{species}</b>'s nickname has been removed.",
+        "length_error": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> Nickname must be 1-24 characters. You sent <code>{len}</code>.\n\nTry again, or /cancel.",
+        "retype_prompt": "<tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> Send a new nickname (24 characters max). Send <code>clear</code> to remove it, or /cancel to abort.",
+        "cancelled": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> <b>Nickname cancelled.</b>\n\nUse /nickname to start again.",
+        "cancelled_short": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> <b>Nickname cancelled.</b>",
+        "nothing_to_cancel": "Nothing to cancel.",
+        "session_expired": "<tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> <b>Session expired.</b>\n\nUse /nickname to start again.",
+        "session_expired_text": "<tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> Session expired. Use /nickname again.",
+        "gone_text": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> That Pokémon is no longer in your collection.",
+        "clear_words": ["clear", "remove", "none", "reset"],
+        "NICK_MAX": 24,
+        "confirm_buttons": [
+          {"label": "Confirm", "callback": "nb|{uid}|confirm|-"},
+          {"label": "Retype", "callback": "nb|{uid}|retype|-"},
+          {"label": "Pick another", "callback": "nb|{uid}|back|0"},
+          {"label": "Cancel", "callback": "nb|{uid}|cancel"},
+          {"label": "Prev", "callback": "nb|{uid}|page|{page-1}"},
+          {"label": "Next", "callback": "nb|{uid}|page|{page+1}"}
+        ]
+      },
+      "release": {
+        "confirm": "<tg-emoji emoji-id=\"5918260798387396946\">⚠️</tg-emoji> Are you sure you want to release <b>{name}</b>?\n\nThis action cannot be undone!",
+        "done": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> <b>{name}</b> has been released. Goodbye, old friend!",
+        "starter_block": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> You cannot release your starter Pokémon!",
+        "buttons": [
+          {"label": "Yes, Release", "callback": "pk|{uid}|dorelease|{token}"},
+          {"label": "Cancel", "callback": "pk|{uid}|card|{token}"}
+        ]
+      },
+      "main_menu_buttons": [
+        {"label": "IVs & EVs", "callback": "pk|{uid}|ivev|{token}"},
+        {"label": "Moves", "callback": "pk|{uid}|moves|{token}"},
+        {"label": "Nickname", "callback": "pk|{uid}|nick|{token}"},
+        {"label": "Release", "callback": "pk|{uid}|release|{token}"},
+        {"label": "View Details", "callback": "pk|{uid}|details|{token}"}
+      ],
+      "details_menu_buttons": [
+        {"label": "Stats", "callback": "pk|{uid}|stats|{token}"},
+        {"label": "TMs", "callback": "pk|{uid}|tms|{token}", "note": "only when the species has TM data"},
+        {"label": "Egg Moves", "callback": "pk|{uid}|eggmoves|{token}"},
+        {"label": "Abilities", "callback": "pk|{uid}|ability|{token}"},
+        {"label": "Types", "callback": "pk|{uid}|types|{token}"},
+        {"label": "Info", "callback": "pk|{uid}|info|{token}"},
+        {"label": "EV Yield", "callback": "pk|{uid}|evyield|{token}"},
+        {"label": "Held Items", "callback": "pk|{uid}|held|{token}"},
+        {"label": "Fav", "callback": "pk|{uid}|fav|{token}"},
+        {"label": "Relearner", "callback": "pk|{uid}|relearn|{token}"},
+        {"label": "Back", "callback": "pk|{uid}|card|{token}"}
+      ],
+      "favorite_texts": {
+        "set": "{status} <b>{name}</b> is now your favorite!",
+        "unset": "{status} <b>{name}</b> removed from favorites.",
+        "status_set": "<tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji>",
+        "status_unset": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji>"
+      }
+    },
+    "my_list": {
+      "header_classic": "<b>Your Pokémons:</b>\n",
+      "header_rich": "<h5>Your Pokémons:</h5>",
+      "empty_classic": "<b>Your Pokémons:</b>\n\nYou don't have any Pokémon yet! Go catch some.",
+      "empty_rich": "<h5>Your Pokémons:</h5><p>You don't have any Pokémon yet! Go catch some.</p>",
+      "entry_line": "{i}. {name}{shiny} - {info}",
+      "entry_line_no_info": "{i}. {name}{shiny}",
+      "entry_join_classic": "\\n (one line per entry; whole list joined with \"\\n\")",
+      "entry_join_rich": "<br/> (entries joined inside one <p> block)",
+      "footer_total_line": "Total: {count} | Page: {page}/{total_pages}",
+      "footer_sort_line": "Sort: {sort_label} {order_arrow} | Display: {display_label}",
+      "order_arrow": {"asc": "▲", "desc": "▼"},
+      "footer_classic": "joined after entry lines with an empty line (\"\\n\".join([header] + entries + [\"\", total_line, sort_line]))",
+      "footer_rich": "<p>{total_line}<br/>{sort_line}</p>",
+      "per_page": 30,
+      "buttons": [
+        {"label": "Prev", "callback": "pk|{uid}|col|_|{page-1}"},
+        {"label": "{page+1}/{total_pages}", "callback": "pk|{uid}|noop|_|"},
+        {"label": "Next", "callback": "pk|{uid}|col|_|{page+1}"},
+        {"label": "Sort: {sort_label}", "callback": "pk|{uid}|sort_open|_|"},
+        {"label": "Display: {display_label}", "callback": "pk|{uid}|display_open|_|"},
+        {"label": "Back to Collection", "callback": "pk|{uid}|col|_|0"}
+      ],
+      "line_info_formats": {
+        "none": "",
+        "level": "Lv.{level}",
+        "nature": "{nature}",
+        "types": "{type1} / {type2}",
+        "type_symbol": "{type_tag} {type_tag}",
+        "total_ivs": "IVs: {total_ivs}",
+        "total_evs": "EVs: {total_evs}",
+        "poke_id": "#{pokemon_id}",
+        "iv_*": "IV {StatAbbrev}: {value}",
+        "ev_*": "EV {StatAbbrev}: {value}",
+        "hp_pts": "HP: {actual_stats.hp}",
+        "atk_pts": "Atk: {actual_stats.attack}",
+        "def_pts": "Def: {actual_stats.defense}",
+        "spa_pts": "SpA: {actual_stats.sp_atk}",
+        "spd_pts": "SpD: {actual_stats.sp_def}",
+        "spe_pts": "Spe: {actual_stats.speed}",
+        "total_pts": "Total: {sum(actual_stats.values())}"
+      },
+      "display_label_map_list_footer": {
+        "none": "None", "level": "Level", "nature": "Nature", "types": "Types",
+        "total_ivs": "Total IVs", "total_evs": "Total EVs", "type_symbol": "Type Symbol",
+        "iv_hp": "IV HP", "iv_atk": "IV Atk", "iv_def": "IV Def",
+        "iv_spa": "IV SpA", "iv_spd": "IV SpD", "iv_spe": "IV Spe",
+        "ev_hp": "EV HP", "ev_atk": "EV Atk", "ev_def": "EV Def",
+        "ev_spa": "EV SpA", "ev_spd": "EV SpD", "ev_spe": "EV Spe",
+        "hp_pts": "HP Pts", "atk_pts": "Atk Pts", "def_pts": "Def Pts",
+        "spa_pts": "SpA Pts", "spd_pts": "SpD Pts", "spe_pts": "Spe Pts",
+        "total_pts": "Total Pts"
+      },
+      "sort_menu": {
+        "header": "<b>How would you like to sort Pokémon?</b>\n",
+        "option_line": "{position_tag}. {label}{marker}",
+        "marker_current": " →",
+        "footer": "\nCurrently Sort: <b>{sort_label}</b> Ordered by: <b>{order_label}</b>",
+        "order_labels": {"desc": "Descending (High→Low)", "asc": "Ascending (Low→High)"},
+        "join_rule": "all lines joined with \"\\n\"",
+        "buttons": [
+          {"label": "{position}{✓ when current}", "callback": "pk|{uid}|sort_set|_|{key}", "grid": "5 columns x 4 rows = 20 buttons"},
+          {"label": "Order: {order_label}", "callback": "pk|{uid}|sort_toggle|_|"},
+          {"label": "Back to Collection", "callback": "pk|{uid}|col|_|0"}
+        ],
+        "options": [
+          {"position": 1, "key": "name", "label": "Name"},
+          {"position": 2, "key": "time", "label": "Time"},
+          {"position": 3, "key": "level", "label": "Level"},
+          {"position": 4, "key": "nature", "label": "Nature"},
+          {"position": 5, "key": "types", "label": "Types"},
+          {"position": 6, "key": "total_ivs", "label": "Total IVs"},
+          {"position": 7, "key": "total_evs", "label": "Total EVs"},
+          {"position": 8, "key": "poke_id", "label": "Poké ID"},
+          {"position": 9, "key": "iv_hp", "label": "IV — HP"},
+          {"position": 10, "key": "iv_atk", "label": "IV — Attack"},
+          {"position": 11, "key": "iv_def", "label": "IV — Defense"},
+          {"position": 12, "key": "iv_spa", "label": "IV — Sp. Attack"},
+          {"position": 13, "key": "iv_spd", "label": "IV — Sp. Defense"},
+          {"position": 14, "key": "iv_spe", "label": "IV — Speed"},
+          {"position": 15, "key": "ev_hp", "label": "EV — HP"},
+          {"position": 16, "key": "ev_atk", "label": "EV — Attack"},
+          {"position": 17, "key": "ev_def", "label": "EV — Defense"},
+          {"position": 18, "key": "ev_spa", "label": "EV — Sp. Attack"},
+          {"position": 19, "key": "ev_spd", "label": "EV — Sp. Defense"},
+          {"position": 20, "key": "ev_spe", "label": "EV — Speed"}
+        ],
+        "defaults": {"pokemon_sort": "time", "pokemon_sort_order": "asc", "menu_current_fallback_label": "Level"},
+        "position_tag_rule": "digit_tag per digit of the 1-based position, concatenated; digit_tag_map below"
+      },
+      "display_menu": {
+        "header": "<b>How would you like to display Pokémon?</b>\n",
+        "option_line": "{position_tag}. {label}{marker}",
+        "footer_display": "\nCurrently Displaying: <b>{display_label}</b>",
+        "footer_numbering": "Pokémon Numbering: <b>{Yes|No}</b>",
+        "join_rule": "all lines joined with \"\\n\"",
+        "buttons": [
+          {"label": "{position}{✓ when current}", "callback": "pk|{uid}|display_set|_|{key}", "grid": "5 columns, 6 rows (26 modes)"},
+          {"label": "Ascending", "callback": "pk|{uid}|sort_toggle|_|"},
+          {"label": "Numbering: {Yes|No}", "callback": "pk|{uid}|numbering_toggle|_|"},
+          {"label": "Back to Collection", "callback": "pk|{uid}|col|_|0"}
+        ],
+        "options": [
+          {"position": 1, "key": "none", "label": "None"},
+          {"position": 2, "key": "level", "label": "Level"},
+          {"position": 3, "key": "nature", "label": "Nature"},
+          {"position": 4, "key": "types", "label": "Types"},
+          {"position": 5, "key": "total_ivs", "label": "Total IVs"},
+          {"position": 6, "key": "total_evs", "label": "Total EVs"},
+          {"position": 7, "key": "type_symbol", "label": "Type Symbol"},
+          {"position": 8, "key": "iv_hp", "label": "IV — HP"},
+          {"position": 9, "key": "iv_atk", "label": "IV — Attack"},
+          {"position": 10, "key": "iv_def", "label": "IV — Defense"},
+          {"position": 11, "key": "iv_spa", "label": "IV — Sp. Attack"},
+          {"position": 12, "key": "iv_spd", "label": "IV — Sp. Defense"},
+          {"position": 13, "key": "iv_spe", "label": "IV — Speed"},
+          {"position": 14, "key": "ev_hp", "label": "EV — HP"},
+          {"position": 15, "key": "ev_atk", "label": "EV — Attack"},
+          {"position": 16, "key": "ev_def", "label": "EV — Defense"},
+          {"position": 17, "key": "ev_spa", "label": "EV — Sp. Attack"},
+          {"position": 18, "key": "ev_spd", "label": "EV — Sp. Defense"},
+          {"position": 19, "key": "ev_spe", "label": "EV — Speed"},
+          {"position": 20, "key": "hp_pts", "label": "HP Points"},
+          {"position": 21, "key": "atk_pts", "label": "Attack Points"},
+          {"position": 22, "key": "def_pts", "label": "Defense Points"},
+          {"position": 23, "key": "spa_pts", "label": "Sp. Attack Points"},
+          {"position": 24, "key": "spd_pts", "label": "Sp. Defense Points"},
+          {"position": 25, "key": "spe_pts", "label": "Speed Points"},
+          {"position": 26, "key": "total_pts", "label": "Total Stats Points"}
+        ],
+        "defaults": {"pokemon_display": "nature", "pokemon_numbering": true, "menu_current_fallback_label": "Nature"}
+      },
+      "digit_tag_map": {
+        "0": "<tg-emoji emoji-id=\"5915895920674742004\">0️⃣</tg-emoji>",
+        "1": "<tg-emoji emoji-id=\"5918186658661932480\">1️⃣</tg-emoji>",
+        "2": "<tg-emoji emoji-id=\"5917981200311393413\">2️⃣</tg-emoji>",
+        "3": "<tg-emoji emoji-id=\"5915526995868917590\">3️⃣</tg-emoji>",
+        "4": "<tg-emoji emoji-id=\"5915985294649205722\">4️⃣</tg-emoji>",
+        "5": "<tg-emoji emoji-id=\"5917771696101665324\">5️⃣</tg-emoji>",
+        "6": "<tg-emoji emoji-id=\"5918205543633133945\">6️⃣</tg-emoji>",
+        "7": "<tg-emoji emoji-id=\"5918094660462451785\">7️⃣</tg-emoji>",
+        "8": "<tg-emoji emoji-id=\"5915895332264222449\">8️⃣</tg-emoji>",
+        "9": "<tg-emoji emoji-id=\"5917824442595025576\">9️⃣</tg-emoji>"
+      }
+    },
+    "not_found_texts": {
+      "not_in_collection": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> Pokémon <b>{name}</b> not found in your collection.",
+      "not_in_collection_no_tag": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> <b>{name}</b> not found in your collection.",
+      "callback_not_found": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> Pokémon <b>{poke_name}</b> not found.",
+      "no_pokemon_yet": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> You don't have any Pokémon yet! Go catch some.",
+      "no_pokemon_yet_plain": "You don't have any Pokémon yet!",
+      "no_match_anymore": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> No Pokémon match '<code>{query}</code>' anymore.",
+      "user_data_not_found": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> User data not found.",
+      "not_your_pokemon_toast": "This isn't your Pokémon!",
+      "pokemon_not_found_toast": "Pokémon not found!",
+      "use_start_first": "Use /start first!",
+      "search_expired_toast": "Search expired — run the command again."
+    }
+  },
+  "start": {
+    "texts": {
+      "welcome": "<tg-emoji emoji-id=\"5915945987108511688\">✨</tg-emoji> <b><u>Welcome to Forge, {username}!</u></b>\n\nI'm the ultimate Pokémon catching bot — Pokémon appear randomly in <b>group chats</b>. Hunt in DM, then use the battle screen to catch them!\n\n<tg-emoji emoji-id=\"5917869294938497733\">🆕</tg-emoji> <b>QUICK START</b>\n<code>/hunt</code> │ <code>/mypokemon</code> │ <code>/trade</code> │ <code>/help</code>\n\n<blockquote>Every catch counts — even the common ones fill your Dex</blockquote>\n\n<tg-emoji emoji-id=\"5917935536219103066\">🚀</tg-emoji> Tap <b>Move Forward</b> below to begin",
+      "start.group_only": "<h3><tg-emoji emoji-id=\"5917860949817040467\">⚠️</tg-emoji> This command only works in DM.</h3><blockquote>Registration needs your private chat — tap the button below</blockquote>",
+      "start.welcome": "<h2><tg-emoji emoji-id=\"5915945987108511688\">✨</tg-emoji> Welcome, {username}!</h2><p>Your Pokémon journey begins here! <tg-emoji emoji-id=\"5917935536219103066\">🚀</tg-emoji></p><p><b>Forge</b> is your adventure companion — ready to help you explore, train, battle, and build your very own Pokémon story.</p><blockquote>A new adventure is about to begin…</blockquote>",
+      "start.choose_gender": "<h3><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> Choose your gender</h3><blockquote>This shapes how other trainers see you</blockquote><p>Tap an option below.</p>",
+      "start.trainer_name_prompt": "<h3><tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> Every great Trainer needs a name!</h3><blockquote>2–20 characters — this is what the world will call you</blockquote><p>Send your <b>Trainer Name</b> below to make it official.</p>",
+      "start.awaiting_name": "<h3><tg-emoji emoji-id=\"5917860949817040467\">⚠️</tg-emoji> Hold on!</h3><p>Send your Trainer Name first to continue your registration.</p>",
+      "start.name_invalid": "<h3><tg-emoji emoji-id=\"5917860949817040467\">⚠️</tg-emoji> That name won't work.</h3><blockquote>Trainer Names must be 2–20 characters long</blockquote><p>Please try again:</p>",
+      "start.choose_region": "<h2><tg-emoji emoji-id=\"5915728129187389553\">🌐</tg-emoji> CHOOSE YOUR REGION</h2><p>Pick where your journey begins:</p>{regions}\n<blockquote>Your region decides which starters you can pick</blockquote><p>Tap a region below to start your adventure.</p>",
+      "start.choose_starter": "<h3><tg-emoji emoji-id=\"5917858965542150008\">🎁</tg-emoji> CHOOSE YOUR STARTER</h3><blockquote>This partner travels with you from now on</blockquote><p>Pick your first Pokémon partner:</p>",
+      "start.starter_chosen": "<h3><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>{name}</b> is now your partner!</h3><blockquote>Train hard, battle everyone, become a Champion</blockquote>",
+      "start.already_registered": "<h3><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> You've already completed registration, <b>{name}</b>!</h3><blockquote>Your journey is already underway — keep going</blockquote><p>Use <code>/help</code> to see all available commands.</p>",
+      "start.session_expired": "<h3><tg-emoji emoji-id=\"5917860949817040467\">⚠️</tg-emoji> Session expired.</h3><blockquote>Type /start again to begin registration from the top</blockquote>",
+      "startup_message": "<tg-emoji emoji-id=\"5917806450977023726\">🔥</tg-emoji> <b>Forge Bot Online!</b>\n\n<tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> Modules loaded: <code>{modules_count}</code>\n<tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> Started at: <code>{timestamp}</code>",
+      "maintenance_on": "<tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> Forge is under maintenance. Please try again later.",
+      "maintenance_off": "<tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> Maintenance mode disabled. Bot is live!",
+      "pokemon.usage": "<tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> Usage: /pokemon <code>&lt;name&gt;</code>\nExample: /pokemon Charmeleon",
+      "pokemon.not_found": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> Pokémon <b>{name}</b> not found in your collection.",
+      "pokemon.no_pokemon": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> You don't have any Pokémon yet! Go catch some.",
+      "pokemon.fav_set": "<tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> <b>{name}</b> is now your favorite!",
+      "pokemon.fav_unset": "Unstarred <b>{name}</b> removed from favorites.",
+      "pokemon.nickname_usage": "<tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> Send a new nickname for <b>{name}</b>:\n\nSend /cancel to abort.",
+      "pokemon.nickname_set": "<tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>{name}</b> has been nicknamed <b>{nickname}</b>!",
+      "pokemon.release_confirm": "<tg-emoji emoji-id=\"5917860949817040467\">⚠️</tg-emoji> Are you sure you want to release <b>{name}</b>?\n\nThis action cannot be undone!",
+      "pokemon.release_done": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> <b>{name}</b> has been released. Goodbye, old friend!",
+      "pokemon.release_starter": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> You cannot release your starter Pokémon!",
+      "pokemon.relearn_title": "<tg-emoji emoji-id=\"5915945987108511688\">✨</tg-emoji> <b>Move Relearner</b>\n\nChoose a move to relearn for <b>{name}</b>:",
+      "pokemon.relearn_done": "<tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>{name}</b> learned <b>{move}</b>!",
+      "pokemon.relearn_known": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> <b>{name}</b> already knows <b>{move}</b>.",
+      "pokemon.move_not_found": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> Move <b>{move}</b> not found.",
+      "error_generic": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> Something went wrong. Please try again.",
+      "error_pm_only": "<tg-emoji emoji-id=\"5917860949817040467\">⚠️</tg-emoji> This command can only be used in private messages.",
+      "error_group_only": "<tg-emoji emoji-id=\"5917860949817040467\">⚠️</tg-emoji> This command can only be used in groups.",
+      "error_no_pokemon": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> You haven't caught any Pokémon yet! Go catch some.",
+      "error_not_found": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> Pokémon not found in your collection.",
+      "error_rate_limit": "<tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> Slow down! Please wait a moment before using this command again."
+    },
+    "texts_note": "35 keys from forge/messages/main.py TEXTS. Values are the post-import f-string templates (ui_tag resolved to <tg-emoji>); {placeholders} are filled by get_msg(key, **kwargs) via str.format_map (unknown placeholders render literally as {name}).",
+    "gender_buttons": {
+      "labels": ["Male", "Female"],
+      "callbacks": ["gender_male", "gender_female"],
+      "styles": {"Male": "danger", "Female": "primary"},
+      "note": "rich pill labels are plain; classic keyboard labels are small_caps() which is currently a no-op passthrough"
+    },
+    "region_line": {
+      "list_open": "<ul>",
+      "list_close": "</ul>",
+      "item_available": "<li><b>{region_name}</b> - {region_game} <i><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> Available</i></li>",
+      "item_locked": "<li><b>{region_name}</b> - {region_game} <i><tg-emoji emoji-id=\"5917860949817040467\">⚠️</tg-emoji> Unlocks at Trainer Lv.{need}</i></li>",
+      "join_rule": "<ul> + all items concatenated + </ul>",
+      "items_have_no_emoji": "region rows carry name + game + status only; the region emoji is NOT in the row",
+      "button_labels": {"unlocked": "{region_name}", "locked": "{region_name} (Lv.{need})"},
+      "button_callbacks": {"unlocked": "region_{key}", "locked": "region_lock_{key}"},
+      "grid": "4 region buttons per row (rich pills + classic keyboard)",
+      "locked_alert_tap": "🔒 Locked! Reach Trainer Lv.{need} to unlock this region.",
+      "locked_alert_stale": "🔒 Locked! Need Trainer Lv.{need} (you are Lv.{level}).",
+      "region_confirm": "<tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> Region: <b>{region_name}</b>",
+      "region_confirm_rich": "<h3><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> Region: <b>{region_name}</b></h3>",
+      "unlock_levels_in_start": {"kanto": 1, "johto": 1, "hoenn": 1, "sinnoh": 1, "unova": 1, "kalos": 1, "alola": 1, "galar": 1, "paldea": 1}
+    },
+    "region_names": {
+      "note": "display name + emoji + game per region key from forge/data/starters.json (start.py REGIONS = {r['key']: r}). forge/modules/regions/regions.py REGIONS[...].emoji is \"\" (empty) for every region, and forge/data/__init__.py REGION_NAME_MAP maps key -> regional-form key (None for kanto..kalos), not display names.",
+      "kanto": {"name": "Kanto", "emoji": "🔴", "game": "Red / Blue"},
+      "johto": {"name": "Johto", "emoji": "🟡", "game": "Gold / Silver"},
+      "hoenn": {"name": "Hoenn", "emoji": "🟢", "game": "Ruby / Sapphire"},
+      "sinnoh": {"name": "Sinnoh", "emoji": "🔵", "game": "Diamond / Pearl"},
+      "unova": {"name": "Unova", "emoji": "🟤", "game": "Black / White"},
+      "kalos": {"name": "Kalos", "emoji": "🪻", "game": "X / Y"},
+      "alola": {"name": "Alola", "emoji": "🏖️", "game": "Sun / Moon"},
+      "galar": {"name": "Galar", "emoji": "⚔️", "game": "Sword / Shield"},
+      "paldea": {"name": "Paldea", "emoji": "🗺️", "game": "Scarlet / Violet"}
+    },
+    "starter_buttons": {
+      "label_format": "{starter_emoji} {starter_name}",
+      "callback_format": "starter_{starter_name.lower()}",
+      "layout": "all starters of the region in ONE row (rich pill row + classic keyboard)",
+      "per_region_starters": {
+        "kanto": [{"name": "Bulbasaur", "emoji": "🌿"}, {"name": "Charmander", "emoji": "🔥"}, {"name": "Squirtle", "emoji": "💧"}],
+        "johto": [{"name": "Chikorita", "emoji": "🌿"}, {"name": "Cyndaquil", "emoji": "🔥"}, {"name": "Totodile", "emoji": "💧"}],
+        "hoenn": [{"name": "Treecko", "emoji": "🌿"}, {"name": "Torchic", "emoji": "🔥"}, {"name": "Mudkip", "emoji": "💧"}],
+        "sinnoh": [{"name": "Turtwig", "emoji": "🌿"}, {"name": "Chimchar", "emoji": "🔥"}, {"name": "Piplup", "emoji": "💧"}],
+        "unova": [{"name": "Snivy", "emoji": "🌿"}, {"name": "Tepig", "emoji": "🔥"}, {"name": "Oshawott", "emoji": "💧"}],
+        "kalos": [{"name": "Chespin", "emoji": "🌿"}, {"name": "Fennekin", "emoji": "🔥"}, {"name": "Froakie", "emoji": "💧"}],
+        "alola": [{"name": "Rowlet", "emoji": "🌿"}, {"name": "Litten", "emoji": "🔥"}, {"name": "Popplio", "emoji": "💧"}],
+        "galar": [{"name": "Grookey", "emoji": "🌿"}, {"name": "Scorbunny", "emoji": "🔥"}, {"name": "Sobble", "emoji": "💧"}],
+        "paldea": [{"name": "Sprigatito", "emoji": "🌿"}, {"name": "Fuecoco", "emoji": "🔥"}, {"name": "Quaxly", "emoji": "💧"}]
+      },
+      "chosen_text_rich": "<h3><tg-emoji emoji-id=\"5917935536219103066\">🚀</tg-emoji> <b>{starter_name}</b> chosen!</h3>",
+      "chosen_text_classic": "<tg-emoji emoji-id=\"5917935536219103066\">🚀</tg-emoji> <b>{starter_name}</b> chosen!",
+      "already_claimed_text": "<tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>Starter already claimed!</b>\n\nYour journey is underway!",
+      "already_chosen_toast": "⚠️ You already chose your starter.",
+      "invalid_toast": "❌ Invalid starter.",
+      "starter_level_range": [5, 8]
+    },
+    "starter_kit_html": "<h4><tg-emoji emoji-id=\"5917858965542150008\">🎁</tg-emoji> STARTER KIT</h4><hr/><table><tr><td><tg-emoji emoji-id=\"5852961356864561365\">🔴</tg-emoji> × 10</td><td><tg-emoji emoji-id=\"5915897634366695641\">🔵</tg-emoji> × 5</td><td><tg-emoji emoji-id=\"5915510236906529449\">⚫</tg-emoji> × 2</td><td>500 <tg-emoji emoji-id=\"5915882305628416528\">💰</tg-emoji></td></tr></table><blockquote><tg-emoji emoji-id=\"5917806450977023726\">🔥</tg-emoji> <b>Train. Battle. Become a Champion!</b></blockquote><p><tg-emoji emoji-id=\"5917935536219103066\">🚀</tg-emoji> Your journey starts now — type <code>/help</code> for your full guide!</p>",
+    "starter_kit_constants": {"STARTER_POKEBALLS": 10, "STARTER_GREATBALLS": 5, "STARTER_ULTRABALLS": 2, "STARTER_FORGE_COINS": 500},
+    "registered_log": "<p><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> <b>#REGISTERED</b></p><p> </p><p><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> <b>Name:</b> {mention}</p><p><tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> <b>Trainer:</b> <b>{trainer_name}</b></p><p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>User ID:</b> <code>{user_id}</code></p><p><tg-emoji emoji-id=\"5915728129187389553\">🌐</tg-emoji> <b>Username:</b> {username}</p><p><tg-emoji emoji-id=\"5918273417001313756\">🌐</tg-emoji> <b>Region:</b> {region_emoji} {region_name}</p>",
+    "registered_log_notes": "from logs.format_registered_log (logs.py 82-93); {mention} = <a href=\"tg://user?id={uid}\">{escaped_name}</a>, {username} = \"@{escaped}\" or \"No username\", {region_emoji}/{region_name} come from starters.json; blanks are \"<p> </p>\".",
+    "sanitize_display_name": {
+      "source": "forge/utils/rich.py sanitize_display_name(raw, max_len=24)",
+      "rules": "1) remove every \"<\" and \">\" character (regex [<>]); 2) .strip() leading/trailing whitespace; 3) truncate to max_len characters.",
+      "chars_removed": ["<", ">"],
+      "default_max_len": 24,
+      "used_with": {"trainer_name": 20, "nickname": 24, "default": 24},
+      "min_length": "not enforced here — /start rejects names shorter than 2 or longer than 20 AFTER sanitizing (len<2 or len>20 → start.name_invalid); nickname rejects <1 or >24"
+    },
+    "entry_math": {
+      "natures": {
+        "Hardy": {"plus": null, "minus": null},
+        "Lonely": {"plus": "attack", "minus": "defense"},
+        "Brave": {"plus": "attack", "minus": "speed"},
+        "Adamant": {"plus": "attack", "minus": "sp_atk"},
+        "Naughty": {"plus": "attack", "minus": "sp_def"},
+        "Bold": {"plus": "defense", "minus": "attack"},
+        "Docile": {"plus": null, "minus": null},
+        "Relaxed": {"plus": "defense", "minus": "speed"},
+        "Impish": {"plus": "defense", "minus": "sp_atk"},
+        "Lax": {"plus": "defense", "minus": "sp_def"},
+        "Timid": {"plus": "speed", "minus": "attack"},
+        "Hasty": {"plus": "speed", "minus": "defense"},
+        "Serious": {"plus": null, "minus": null},
+        "Jolly": {"plus": "speed", "minus": "sp_atk"},
+        "Naive": {"plus": "speed", "minus": "sp_def"},
+        "Modest": {"plus": "sp_atk", "minus": "attack"},
+        "Mild": {"plus": "sp_atk", "minus": "defense"},
+        "Quiet": {"plus": "sp_atk", "minus": "speed"},
+        "Bashful": {"plus": null, "minus": null},
+        "Rash": {"plus": "sp_atk", "minus": "sp_def"},
+        "Calm": {"plus": "sp_def", "minus": "attack"},
+        "Gentle": {"plus": "sp_def", "minus": "defense"},
+        "Sassy": {"plus": "sp_def", "minus": "speed"},
+        "Careful": {"plus": "sp_def", "minus": "sp_atk"},
+        "Quirky": {"plus": null, "minus": null}
+      },
+      "nature_roll": "nature = random.choice(list(NATURES.keys())) — uniform over all 25",
+      "random_ivs": "NOT uniform: for each of [hp, attack, defense, sp_atk, sp_def, speed]: val = clamp(int(random.gauss(15.5, 7)), 0, 31) (bell curve centered 15.5, sigma 7; extremes rare)",
+      "random_evs": "all six EVs start at 0: {hp:0, attack:0, defense:0, sp_atk:0, sp_def:0, speed:0}",
+      "actual_stats_formula": {
+        "hp": "max(1, floor(((2*base + iv + floor(ev/4)) * level / 100) + level + 10))",
+        "other": "stat = floor(((2*base + iv + floor(ev/4)) * level / 100) + 5); if nature.plus == stat_name -> floor(stat * 1.1); elif nature.minus == stat_name -> floor(stat * 0.9); return max(1, stat)",
+        "applied": "calc_all_stats over STAT_ORDER [hp, attack, defense, sp_atk, sp_def, speed]; max_hp = actual_stats.hp"
+      },
+      "exp_for_level": {
+        "rule": "level <= 1 -> 0; unknown growth_rate falls back to medium-fast",
+        "fast": "int(4 * level^3 / 5)",
+        "medium-fast": "level^3",
+        "medium-slow": "int(6/5*level^3 - 15*level^2 + 100*level - 140)",
+        "slow": "5 * level^3 / 4  (returned as a float, no int())",
+        "erratic": "level <= 50 ? int(level^3 * (100 - level) / 50) : int(level^3 * (150 - level) / 100)",
+        "fluctuating": "level <= 15 ? int(level^3 * ((level + 1)/3 + 24) / 50) : int(level^3 * (level + 14) / 50)",
+        "exp_to_next": "exp_for_level(level+1) - exp_for_level(level)",
+        "entry_exp": "total_exp = exp_for_level(level, growth_rate)"
+      },
+      "learn_moves_for_level": {
+        "source_moves": "dex.moves entries with level == 0 or level <= candidate level",
+        "filter": "keep only moves whose fetched power AND accuracy are both real numbers > 0 (status/no-data moves dropped)",
+        "sort": "sorted by (-level_learned, name), then truncated to MAX_MOVES = 4",
+        "empty_fallback_pool": "if no level-up moves: scan global move index; skip status category; skip blacklist {explosion, self destruct, selfdestruct, hyper beam, giga impact, belch, frustration, return}; require power>0 and accuracy>0; score = (10 if STAB else 1) + power/20; sort desc; take top 4 but avoid a 3rd move of an already-seen type once >=2 moves share types (seen_types skip when len(learned)>=2)",
+        "guarantee": "if still empty → [{name: Tackle, type: Normal, power: 40, accuracy: 100, pp: 35, damage_class: physical, level_learned: 1}]",
+        "MAX_MOVES": 4
+      },
+      "ev_yield_calc": "best_stat = argmax(base_stats) (single highest stat only); ev_yield[best_stat] = min(3, max(1, floor(best_val / 40)))",
+      "gender_determination": "gender = null when species gender_rate == -1 (gender_rate==-1 names are pre-collected into GENDERLESS_IDS), else random.choice(['Male','Female']) — 50/50; gender_rate itself is only used for genderless detection (display uses format_gender_rate: male=(8-rate)/8*100%, female=rate/8*100%)",
+      "shiny_hidden_roll": "create_pokemon_entry: is_shiny = random.random() < 0.001 (0.10%). generate_spawn OVERRIDES it: roll_shiny() is the only authority — roll < 0.000005 → god_shiny; < 0.000005+0.00005 → ultra_shiny; < 0.000005+0.00005+0.0005 → shiny; else normal, and a normal result forces entry.shiny = False (SHINY_GOD=0.000005, SHINY_ULTRA=0.00005, SHINY_SHINY=0.0005)",
+      "other_entry_fields": {"_uid": "uuid4().hex", "catch_time": "time.time()", "nova_bond": 0, "is_fav": false, "total_base_stats": "sum(base_stats.values())"}
+    }
+  },
+  "help": {
+    "modules": [
+      {
+        "key": "start",
+        "icon": "rocket",
+        "short": "Start",
+        "title": "Getting Started",
+        "sections": [
+          ["Basics", [
+            "/start — Begin or continue your journey",
+            "/help — Open this menu",
+            "/mystats — Name, coins, catches &amp; PvP at a glance",
+            "/myinv · /myinventory — Balls, stones, TMs &amp; key items",
+            "/rename &lt;name&gt; — Change your trainer name, e.g. /rename Ash",
+            "/query &lt;text&gt; — Report a bug or suggest a feature, e.g. /query hunt lag",
+            "/clear — Unstick a frozen battle or trade"
+          ]],
+          ["Regions", [
+            "/travel — Your regions &amp; travel menu",
+            "/evtrain — Pick a stat to EV train, then /hunt"
+          ]]
+        ],
+        "notes": ["• regions unlock at trainer level = your gen number"]
+      },
+      {
+        "key": "battle",
+        "icon": "fire",
+        "short": "Battle",
+        "title": "Catching & Battle",
+        "sections": [
+          ["Encounters", [
+            "/hunt — Wild encounter: fight it or throw a ball",
+            "/open · /close — Hunt panel in your DM",
+            "/safari — Safari Zone info",
+            "/enter &lt;zone&gt; — Join a Safari zone, e.g. /enter Primal Ocean",
+            "/exit — Leave the Safari Zone"
+          ]],
+          ["Battle", [
+            "/battle — Fight a trainer (reply to their message)",
+            "/challenge — Challenge menu",
+            "/gym — Gym league &amp; leaders",
+            "/gymbattle &lt;leader&gt; — Fight a gym leader, e.g. /gymbattle Brock",
+            "/analyze · /battleanalyze — AI breakdown of your last battle",
+            "/zmine — Equip a Z-Crystal (buy them in /shop → Z-Crystals)"
+          ]]
+        ],
+        "notes": ["• catching keeps the Pokémon · winning battles pays 10–20 coins"]
+      },
+      {
+        "key": "collection",
+        "icon": "gift",
+        "short": "Dex",
+        "title": "Collection & Data",
+        "sections": [
+          ["Browse", [
+            "/mypokemons — Paginated list of everything you caught",
+            "/mypokemon · /collection — Quick list of your collection",
+            "/data &lt;name&gt; — Species data &amp; spawn info, e.g. /data gyarados",
+            "/details &lt;name&gt; — Extended details, e.g. /details Charmeleon",
+            "/stats &lt;name&gt; — Full stat card, e.g. /stats Charmeleon",
+            "/pc — Storage box",
+            "/search — Open collection search",
+            "/filter — Interactive filter menu",
+            "/sort — Sort options for your list",
+            "/myshinies — Every shiny you own",
+            "/myfav — Your favourites",
+            "/myforms — Regional &amp; alternate forms",
+            "/nicknames — Pokémon you've nicknamed",
+            "/myanc — Your Ancients",
+            "/lineage &lt;name&gt; — Family tree of a bred Pokémon, e.g. /lineage eevee"
+          ]],
+          ["Manage", [
+            "/nickname — Nickname wizard (pick, then type)",
+            "/cancel — Exit a wizard or dialog",
+            "/display — Choose what list rows show",
+            "/setfav &lt;name&gt; — Toggle favourite, e.g. /setfav pikachu",
+            "/release &lt;name&gt; — Release a Pokémon, e.g. /release charmander",
+            "/forms &lt;name&gt; — View &amp; change forms, e.g. /forms pikachu"
+          ]]
+        ],
+        "notes": []
+      },
+      {
+        "key": "team",
+        "icon": "user",
+        "short": "Team",
+        "title": "Team Building",
+        "sections": [
+          ["Your Team", [
+            "/myteam — Team card image &amp; roster",
+            "/teams — List all your teams",
+            "/newteam &lt;name&gt; — Create a team, e.g. /newteam rain",
+            "/delteam &lt;name&gt; — Delete a team, e.g. /delteam rain",
+            "/team · /setteam · /remteam — Legacy redirects to /myteam"
+          ]],
+          ["Train", [
+            "/move &lt;move&gt; — Change a Pokémon's moves, e.g. /move flamethrower",
+            "/bestnat &lt;name&gt; — Best natures for a species, e.g. /bestnat garchomp",
+            "/chart — IV/EV calculator",
+            "/evolve — Confirm-screen evolution, e.g. /evolve bulbasaur",
+            "/checkevolve &lt;name&gt; — Evolution paths, e.g. /checkevolve charmander"
+          ]],
+          ["Gear", [
+            "/equip &lt;item&gt; — Hold an item, e.g. /equip leftovers",
+            "/unequip &lt;item&gt; — Remove a held item, e.g. /unequip leftovers"
+          ]]
+        ],
+        "notes": ["• old /team · /setteam · /remteam redirect to the new system"]
+      },
+      {
+        "key": "shop",
+        "icon": "cart",
+        "short": "Shop",
+        "title": "Shop & Items",
+        "sections": [
+          ["Rewards", [
+            "/daily — Daily reward (main group only)",
+            "/weekly — Weekly reward (main group only)",
+            "/rewards — Streaks &amp; reward status",
+            "/redeem &lt;code&gt; — Redeem a gift code, e.g. /redeem FORGE100"
+          ]],
+          ["Market", [
+            "/shop — Browse the market",
+            "/pballs — List every Poké Ball",
+            "/buy &lt;item&gt; [qty] — Buy items, e.g. /buy Ultra 2",
+            "/sell &lt;item&gt; [qty] — Sell items, e.g. /sell candy 3",
+            "/use &lt;item&gt; — Use an item, e.g. /use potion"
+          ]],
+          ["Training", [
+            "/candy &lt;name&gt; — Rare Candy +1 level, e.g. /candy pikachu",
+            "/vitamin &lt;name&gt; — Boost EVs, e.g. /vitamin pikachu",
+            "/berry &lt;name&gt; — Reduce EVs by 10, e.g. /berry pikachu",
+            "/boost &lt;name&gt; — +1 IV once per stat, e.g. /boost pikachu",
+            "/nullcandy — Reset a Pokémon to Lv.1"
+          ]],
+          ["Gifting", [
+            "/give &lt;coins&gt; — Give coins (reply to recipient), e.g. /give 100",
+            "/send_tm &lt;TM&gt; — Send a TM (reply), e.g. /send_tm 05"
+          ]]
+        ],
+        "notes": ["• /daily · /weekly are main group only · /candy is groups only"]
+      },
+      {
+        "key": "breed",
+        "icon": "love",
+        "short": "Breed",
+        "title": "Breeding",
+        "sections": [
+          ["Eggs", [
+            "/daycare — Drop off two Pokémon",
+            "/breed &lt;p1&gt; &lt;p2&gt; — Breed a pair, e.g. /breed pikachu ditto",
+            "/eggs — View your eggs",
+            "/hatch — Hatch a ready egg"
+          ]],
+          ["Care", [
+            "/walk — Walk eggs to hatch faster",
+            "/warm — Warm your eggs",
+            "/care — Care for your eggs",
+            "/camp &lt;name&gt; — Camp for 2 days to recover &amp; bond, e.g. /camp eevee",
+            "/leavecamp &lt;name&gt; — Recall it early, e.g. /leavecamp eevee"
+          ]],
+          ["Guide", [
+            "/breedhelp — Full breeding guide"
+          ]]
+        ],
+        "notes": []
+      },
+      {
+        "key": "social",
+        "icon": "chat",
+        "short": "Social",
+        "title": "Social & Games",
+        "sections": [
+          ["Trades", [
+            "/trade &lt;you&gt; for &lt;them&gt; — Reply to a trainer, e.g. /trade pikachu for raichu",
+            "/tradecancel · /canceltrade — Cancel a pending trade",
+            "/tradehistory — Your past trades"
+          ]],
+          ["Factions", [
+            "/faction — Faction hub",
+            "/factioncreate &lt;name&gt; | &lt;desc&gt; — Create one, e.g. /factioncreate Rocket | Crime",
+            "/factionjoin &lt;name&gt; — Join, e.g. /factionjoin Rocket",
+            "/factionleave — Leave your faction",
+            "/factionlist — Browse factions",
+            "/factionmembers — Your faction roster",
+            "/facinvite — Share your faction's invite link",
+            "/facedisband — Disband your own faction",
+            "/factiondonate &lt;coins&gt; — Donate, e.g. /factiondonate 100",
+            "/factionchest — Faction chest",
+            "/facwar — Faction war hub",
+            "/facwarreport &lt;win|loss&gt; [pts] — Report a result, e.g. /facwarreport win 3"
+          ]],
+          ["Games & Goals", [
+            "/guess — Who's That Pokémon?",
+            "/quest · /quests — Daily quests",
+            "/questclaim — Claim quest rewards",
+            "/achievements · /ach — Achievement list",
+            "/achclaim — Claim achievement rewards",
+            "/referral — Referral link &amp; rewards",
+            "/motivation — Random pep talk"
+          ]]
+        ],
+        "notes": []
+      },
+      {
+        "key": "boards",
+        "icon": "trophy",
+        "short": "Boards",
+        "title": "Boards & Info",
+        "sections": [
+          ["Leaderboards", [
+            "/leaderboard — Top EXP · Pokémon · F.C (top 10 each)"
+          ]],
+          ["Info", [
+            "/botstats — Bot uptime &amp; activity stats"
+          ]]
+        ],
+        "notes": []
+      }
+    ],
+    "constants": {
+      "PAGE_SIZE": 12,
+      "COLS": 4,
+      "PAGE_LIMIT": 1024,
+      "PAGE_SLACK": 16,
+      "GRID_COL_CAP": 30,
+      "PREV_LABEL": "Prev",
+      "NEXT_LABEL": "Next",
+      "CLOSE_LABEL": "Close",
+      "BACK_LABEL": "Back",
+      "NBSP": "\u00a0"
+    },
+    "header_formats": {
+      "classic_main_line1": "<tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> <b><u>HELP MENU</u></b> — {len(_MODULES)} modules · page {page + 1}/{page_count}",
+      "classic_main_line2": "<tg-emoji emoji-id=\"5915945987108511688\">✨</tg-emoji> <blockquote>Prefix: / — e.g. /help, /hunt, /myteam\nTap a module below (4 per row) to browse its commands</blockquote>",
+      "separator": "━",
+      "separator_length": 18,
+      "module_grid_cell": "<tg-emoji…icon> <b>{short}</b>  (per module; cells joined with \"  │  \", separator line between rows)",
+      "grid_join": "  │  ",
+      "column_header": "<code>{command padded with NBSP to width+1}</code><b>Description</b>",
+      "grid_row": "<code>{left padded with NBSP}</code>{right}",
+      "row_split": "split each source line on the first \" — \" (left = command cell, right = description)"
+    },
+    "module_header_formats": {
+      "line1": "<tg-emoji…icon> <b><u>{title}</u></b>",
+      "line2_single_page": "<tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> <i>{count} commands</i>",
+      "line2_multi_page": "<tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> <i>{count} commands · page {sub}/{total}</i>",
+      "line3": "<tg-emoji emoji-id=\"5915945987108511688\">✨</tg-emoji> e.g. <code>/{first_command}</code>",
+      "line4": "<i>└ {footer}</i>",
+      "section_header": "<b>{section_title}</b>",
+      "first_command_rule": "first word of the module's first command line, \"/\" stripped"
+    },
+    "footer_formats": {
+      "multi_page": "Page {sub}/{total} · tap BACK for the menu",
+      "single_page": "Tap BACK to return to the menu",
+      "classic_wrap": "<i>└ {footer}</i>",
+      "rich_wrap": "<footer>{footer}</footer>",
+      "rich_main_footer": "Page {page + 1}/{total} · tap CLOSE to dismiss"
+    },
+    "rich_main_format": "<h2><tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> Help Menu</h2><p><tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> Modules: {module_count} · Page {page}/{total}</p><p><tg-emoji emoji-id=\"5915945987108511688\">✨</tg-emoji> Prefixes: / — e.g. /help, /hunt, /myteam</p><p><tg-emoji emoji-id=\"5915728129187389553\">🌐</tg-emoji> Pick a module to browse its commands</p><h3><tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> Modules</h3>{pill_rows}<footer>Page {page}/{total} · tap CLOSE to dismiss</footer>",
+    "rich_module_format": "<h3><tg-emoji…icon> {title}</h3><p><tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> {count} commands[ · page {sub}/{total}]</p><p><tg-emoji emoji-id=\"5915945987108511688\">✨</tg-emoji> e.g. <code>/{first_command}</code></p><hr/>{sections as <h4> + <table><tr><th>Command</th><th>Description</th></tr> rows}<footer>{footer}</footer>",
+    "button_labels": {
+      "classic_module_button": "{glyph} {short} (ui_glyph plain unicode of the icon)",
+      "rich_module_pill": "<tg-emoji…icon> {short}",
+      "icon_glyphs": {"rocket": "🚀", "fire": "🔥", "gift": "🎁", "user": "👤", "cart": "🛒", "love": "😍", "chat": "💬", "trophy": "🏆"}
+    },
+    "callback_formats": {
+      "main_page": "help|main:{page}",
+      "open_module": "help|open:{key}:{menu_page}:{sub}",
+      "close": "help|close",
+      "unknown_toast": "Unknown option",
+      "legacy": "help|<digit> → re-renders main page 0"
+    }
+  },
+  "logs": {
+    "blank_spacer": "<p> </p>",
+    "registered": {
+      "template": "<p><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> <b>#REGISTERED</b></p><p> </p><p><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> <b>Name:</b> {mention}</p><p><tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> <b>Trainer:</b> <b>{trainer_name}</b></p><p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>User ID:</b> <code>{user_id}</code></p><p><tg-emoji emoji-id=\"5915728129187389553\">🌐</tg-emoji> <b>Username:</b> {username}</p><p><tg-emoji emoji-id=\"5918273417001313756\">🌐</tg-emoji> <b>Region:</b> {region_emoji} {region_name}</p>"
+    },
+    "claim": {
+      "tags": {"daily": "#DAILY_CLAIM", "weekly": "#WEEKLY_CLAIM"},
+      "labels": {"daily": "daily", "weekly": "weekly"},
+      "template": "<p><tg-emoji emoji-id=\"5917858965542150008\">🎁</tg-emoji> <b>{tag}</b></p><p> </p><p><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> <b>Name:</b> {mention}</p><p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>User ID:</b> <code>{user_id}</code></p><p><tg-emoji emoji-id=\"5915728129187389553\">🌐</tg-emoji> <b>Username:</b> {username}</p><p> </p><p><tg-emoji emoji-id=\"5915882305628416528\">💰</tg-emoji> <b>Coins:</b> <b>+{coins}</b></p><p><tg-emoji emoji-id=\"5852961356864561365\">🔴</tg-emoji> <b>Pokéballs:</b> <b>+{balls}</b></p>[<p><tg-emoji emoji-id=\"5915897634366695641\">🔵</tg-emoji> <b>Great Balls:</b> <b>+{greats}</b></p> when greats > 0]<p><tg-emoji emoji-id=\"5917806450977023726\">🔥</tg-emoji> <b>{label.title()} streak:</b> <b>{streak}</b></p>",
+      "note": "coins formatted \"{coins:,}\"; label = \"Daily\"/\"Weekly\" (title-cased)"
+    },
+    "purchase": {
+      "template": "<p><tg-emoji emoji-id=\"5917952668843648408\">🛒</tg-emoji> <b>#PURCHASE</b></p><p> </p><p><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> <b>Name:</b> {mention}</p><p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>User ID:</b> <code>{user_id}</code></p><p><tg-emoji emoji-id=\"5915728129187389553\">🌐</tg-emoji> <b>Username:</b> {username}</p><p> </p><p><tg-emoji emoji-id=\"5917908121442857117\">➕</tg-emoji> <b>Item:</b> {item_name_html} <b>x{qty}</b></p><p><tg-emoji emoji-id=\"5915882305628416528\">💰</tg-emoji> <b>Price:</b> <b>{total}</b></p><p><tg-emoji emoji-id=\"5915882305628416528\">💰</tg-emoji> <b>Balance:</b> <b>{balance}</b></p>",
+      "note": "total/balance formatted \"{total:,}\" / \"{balance:,}\"; item_name_html = \"{item_tag} {item_display}\" (item_tag only for the 7 stickered items: rare-candy/null-candy/berry/vitamin/omni-ring/egg-incubator/boost)"
+    },
+    "bot_membership": {
+      "tags": {"added": "#BOT_ADDED", "removed": "#BOT_REMOVED"},
+      "structure": "{header}<p> </p>{chat_block}<p> </p>{actor_block}<p> </p>{tail}",
+      "header_added": "<p><tg-emoji emoji-id=\"5917908121442857117\">➕</tg-emoji> <b>#BOT_ADDED</b></p>",
+      "header_removed": "<p><tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> <b>#BOT_REMOVED</b></p>",
+      "chat_block": "<p><tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> ᴄʜᴀᴛ ɴᴀᴍᴇ : {title}</p><p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> ᴄʜᴀᴛ ɪᴅ : <code>{chat_id}</code></p><p><tg-emoji emoji-id=\"5915728129187389553\">🌐</tg-emoji> ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ : {chat_username}</p><p><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> ɢʀᴏᴜᴘ ᴍᴇᴍʙᴇʀs : {member_count}</p>",
+      "actor_block_added": "<p><tg-emoji emoji-id=\"5917908121442857117\">➕</tg-emoji> ᴀᴅᴅᴇᴅ ʙʏ : {actor_mention}</p><p><tg-emoji emoji-id=\"5915728129187389553\">🌐</tg-emoji> ᴀᴅᴅᴇʀ ᴜsᴇʀɴᴀᴍᴇ : {actor_username}</p><p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> ᴀᴅᴅᴇʀ ɪᴅ : <code>{actor_id}</code></p>",
+      "actor_block_removed": "<p><tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> ʀᴇᴍᴏᴠᴇᴅ ʙʏ : {actor_mention}</p><p><tg-emoji emoji-id=\"5915728129187389553\">🌐</tg-emoji> ʀᴇᴍᴏᴠᴇʀ ᴜsᴇʀɴᴀᴍᴇ : {actor_username}</p><p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> ʀᴇᴍᴏᴠᴇʀ ɪᴅ : <code>{actor_id}</code></p>",
+      "tail": "<p><tg-emoji emoji-id=\"5917935536219103066\">🚀</tg-emoji> ᴄʜᴀᴛ ʟɪɴᴋ : {chat_link}</p><p><tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> ᴛɪᴍᴇ : {timestamp}</p>",
+      "notes": "labels use Unicode small-caps characters (ᴄʜᴀᴛ ɴᴀᴍᴇ etc. — literal text, not small_caps()); chat_username = \"@{name}\" or \"No username\"; chat_link = https://t.me/{username} or https://t.me/c/{id without -100} or \"No link\"; timestamp = \"%Y-%m-%d %I:%M:%S %p\" local"
+    },
+    "capture": {
+      "template": "<p><tg-emoji emoji-id=\"5915945987108511688\">✨</tg-emoji> <b>#CAUGHT</b></p><p> </p><p><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> <b>Name:</b> {mention_id}</p><p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>User ID:</b> <code>{uid}</code></p><p><tg-emoji emoji-id=\"5915728129187389553\">🌐</tg-emoji> <b>Username:</b> {username}</p><p> </p><p>{src_icon} <b>Source:</b> {source}</p><p><tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> <b>Pokémon:</b> {poke_line}</p>[<p><tg-emoji emoji-id=\"5852666434345248654\">⚡</tg-emoji> <b>Types:</b> {types}</p> when types non-empty][<p><tg-emoji emoji-id=\"5917887935096561123\">💎</tg-emoji> <b>IVs:</b> <b>{iv_total}</b>/48</p> when IVs present][<p><tg-emoji…ball> <b>Ball:</b> {ball_display}</p> when ball_id given]",
+      "src_icon": "ui_tag(\"battle\") = <tg-emoji emoji-id=\"5918013330961735107\">⚔️</tg-emoji> when source == \"Battle\", else ui_tag(\"region\") = <tg-emoji emoji-id=\"5918273417001313756\">🌐</tg-emoji>",
+      "username_rule": "\"@{escaped}\" when username set else \"No username\"",
+      "poke_line": "[shiny_tag + \" \"]<b>{display}</b> — Lv.<b>{level}</b>[ {nature}][ {gender}]; display = nickname (when != species) + \" ({species})\"; shiny_tag = <tg-emoji emoji-id=\"5918098311184654030\">✨</tg-emoji> only when shiny"
+    },
+    "trade": {
+      "template": "<p><tg-emoji emoji-id=\"5917987543978092091\">👤</tg-emoji> <b>#TRADE</b></p><p> </p><p><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> <b>Trainers:</b> {mention1} ↔ {mention2}</p><p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>User IDs:</b> <code>{uid1}</code> ↔ <code>{uid2}</code></p><p> </p><p><tg-emoji emoji-id=\"5917908121442857117\">➕</tg-emoji> <b>{name1} → {name2}:</b> {poke_line1}</p><p><tg-emoji emoji-id=\"5917858965542150008\">🎁</tg-emoji> <b>{name2} → {name1}:</b> {poke_line2}</p>",
+      "note": "empty names default to \"Trainer\" (escaped); mention = <a href=\"tg://user?id={uid}\">{escaped_name}</a>"
+    },
+    "helpers": {
+      "mention": "<a href=\"tg://user?id={uid}\">{escaped_display}</a>",
+      "username": "@{escaped_username} or \"No username\"",
+      "_p": "<p>{inner}</p>"
+    }
+  },
+  "joingate": {
+    "gate_body": "<p><tg-emoji emoji-id=\"5918260798387396946\">⚠️</tg-emoji> <b>JOIN REQUIRED</b></p><p><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> You must join our official channel and group before using {where}.</p><p><tg-emoji emoji-id=\"5917860949817040467\">⚠️</tg-emoji> <b>Required:</b></p>{required_lines}<p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> Tap a join button below, then press <b>I Joined</b> to confirm.</p>",
+    "where_rule": "where = \"<code>/{action}</code>\" when action else \"this command\"",
+    "required_line_channel": "<p><tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> <b>Channel</b>: <a href=\"{url}\">@{name}</a></p>",
+    "required_line_group": "<p><tg-emoji emoji-id=\"5916034072592785479\">👤</tg-emoji> <b>Group</b>: <a href=\"{url}\">@{name}</a></p>",
+    "required_chats": [
+      {"kind": "channel", "name": "ShadowBotsHQ", "url": "https://t.me/ShadowBotsHQ", "chat_id": "@ShadowBotsHQ"},
+      {"kind": "group", "name": "keczt", "url": "https://t.me/keczt", "chat_id": "@keczt"}
+    ],
+    "button_labels": {
+      "join_channel": "Join Channel: @{name}",
+      "join_group": "Join Group: @{name}",
+      "confirm": "I Joined"
+    },
+    "verified_text": "<p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> <b>MEMBERSHIP VERIFIED</b></p><p>All set — running {where}…</p>",
+    "verified_where_rule": "where = \"<code>/{action}</code>\" when action else \"that command\"",
+    "callback_formats": ["jg|{action}", "jg|redeem|{code}"],
+    "replay_actions": {"daily": "re-runs rewards.daily", "weekly": "re-runs rewards.weekly", "redeem": "re-runs extra.redeem with code"}
+  },
+  "rewards": {
+    "main_group": {"username": "keczt", "url": "https://t.me/keczt"},
+    "daily_success": "<tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> <b>Daily Reward Claimed!</b>\n────────────────────────\n\n• Base: <b>{base}</b> {coin_tag}\n[• Streak bonus ({streak} days): <b>+{streak_bonus}</b> {coin_tag}\n when streak_bonus > 0]• Pokéballs: <b>+{balls}</b> {pokeball_tag}\n\n<b>Total: {total} Forge Coins</b> {coin_tag}\nStreak: <b>{streak}</b> {fire_tag}\n\nNext daily in: <b>{wait}</b>",
+    "weekly_success": "<tg-emoji emoji-id=\"5917858965542150008\">🎁</tg-emoji> <b>Weekly Reward Claimed!</b>\n────────────────────────\n\n• Base: <b>{base:,}</b> {coin_tag}\n[• Streak bonus ({streak} weeks): <b>+{streak_bonus:,}</b> {coin_tag}\n when streak_bonus > 0]• Pokéballs: <b>+{balls}</b> {pokeball_tag}\n• Great Balls: <b>+{greats}</b> {greatball_tag}\n\n<b>Total: {total:,} Forge Coins</b> {coin_tag}\nWeekly streak: <b>{streak}</b> {fire_tag}\n\nNext weekly in: <b>{wait}</b>",
+    "already_claimed_daily": "<tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> You already claimed <b>today's daily</b>!\n\nNext daily in: <b>{wait}</b>",
+    "already_claimed_weekly": "<tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> You already claimed <b>this week's reward</b>!\n\nNext weekly in: <b>{wait}</b>",
+    "main_group_redirect": "<p><tg-emoji emoji-id=\"5918260798387396946\">⚠️</tg-emoji> <b>MAIN GROUP ONLY</b></p><p><tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> <code>/{action}</code> must be claimed inside our main group.</p><p><tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> Open <b>Main Group</b> below, then run <code>/{action}</code> there.</p>",
+    "main_group_button": {"label": "Main Group", "url": "https://t.me/keczt"},
+    "not_registered": "Use /start first to register!",
+    "status_board": "<tg-emoji emoji-id=\"5917858965542150008\">🎁</tg-emoji> <b>REWARDS STATUS</b>\n────────────────────────\n\n<b>Daily</b> (90–100 {coin_tag} + balls)\n{d_status}\nStreak: <b>{d_streak}</b> {fire_tag}\n\n<b>Weekly</b> (450–500 {coin_tag} + balls)\n{w_status}\nWeekly streak: <b>{w_streak}</b> {fire_tag}",
+    "status_ready_daily": "<tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> Ready — <code>/daily</code>",
+    "status_ready_weekly": "<tg-emoji emoji-id=\"5917917398572211635\">✅</tg-emoji> Ready — <code>/weekly</code>",
+    "status_claimed_daily": "<tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> Claimed — next in <b>{wait}</b>",
+    "status_claimed_weekly": "<tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji> Claimed — next in <b>{wait}</b>",
+    "fmt_wait_rules": "seconds clamped >=0; h,m = divmod(seconds,3600), m=floor(m/60); h&&m → \"{h}h {m}m\"; h → \"{h}h\"; else \"{m}m\"",
+    "reset_rules": "daily: next midnight IST; weekly: next Monday 00:00 IST; waits computed in IST (UTC+5:30)",
+    "separator_rule": "24 × U+2500 (─) between title and bullet lines",
+    "reward_ranges": {"daily_coins": [90, 100], "daily_streak_bonus": 5, "daily_streak_cap": 50, "daily_balls": [2, 5], "weekly_coins": [450, 500], "weekly_streak_bonus": 20, "weekly_streak_cap": 100, "weekly_balls": [10, 15], "weekly_great_balls": [2, 4]}
+  },
+  "myinv": {
+    "header_format": "<h3>{name}'s inventory</h3>\n<b>Forge Coins:</b> {coins:,} {coin_tag}  |  <b>EXP:</b> {trainer_exp:,} {star_tag}",
+    "header_note": "name = html.escape(user_data.name or \"Trainer\"); coin_tag = <tg-emoji emoji-id=\"5915882305628416528\">💰</tg-emoji>; star_tag = <tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji>; rich <h3> downgrades to bold on classic clients",
+    "buttons": [
+      {"label": "PokéBalls", "callback": "col|{uid}|inv|pokeballs"},
+      {"label": "Mega Stones", "callback": "col|{uid}|inv|megastones"}
+    ]
+  },
+  "data": {
+    "main_card_format": "<b>{name}'s Data</b>\n\n• <b>Species ID:</b> {id}\n• <b>Type:</b> {type_line}\n• <b>Catch Rate:</b> {catch_rate}\n• <b>EV Yield:</b> {ev_yield}\n• <b>Best Natures:</b> {best_natures}\n\n<tg-emoji emoji-id=\"5915719788360901158\">⭐</tg-emoji> <b>Base Stats:</b>\n• <b>{abbr}:</b> {base} ({min} - {max}) × 6\n[\n<a href=\"{official_artwork_url}\">\u200c</a>] when an image URL exists",
+    "main_card_helpers": {
+      "type_line": "\"{Type} <tg-emoji emoji-id=...>fallback</tg-emoji> / {Type} <tg-emoji …>fallback</tg-emoji>\" (type_line over local_data.types)",
+      "ev_yield_display": "\"{val} {abbr}\" entries with val>0 joined \", \", else \"None\"",
+      "best_natures": "top stat by base value → its 4 natures: hp→[Hardy, Docile, Serious, Bashful], attack→[Adamant, Lonely, Naughty, Brave], defense→[Bold, Impish, Relaxed, Lax], sp_atk→[Modest, Mild, Rash, Quiet], sp_def→[Calm, Gentle, Careful, Sassy], speed→[Timid, Jolly, Hasty, Naive]",
+      "stat_range_level_50": {"hp": "min = floor((2*base)*50/100)+50+10, max = floor((2*base+31+63)*50/100)+50+10", "other": "min = floor(((2*base+0+0)*50/100+5)*0.9), max = floor(((2*base+31+63)*50/100+5)*1.1)"},
+      "stat_abbreviations": {"hp": "HP", "attack": "ATK", "defense": "DEF", "sp_atk": "SP.ATK", "sp_def": "SP.DEF", "speed": "SPD"},
+      "stat_order": ["hp", "attack", "defense", "sp_atk", "sp_def", "speed"]
+    },
+    "buttons": [
+      {"label": "Moves", "callback": "d:moves:{id}"},
+      {"label": "Evolutions", "callback": "d:evo:{id}"},
+      {"label": "Locations", "callback": "d:loc:{id}:0"},
+      {"label": "Weakness", "callback": "d:weak:{id}"},
+      {"label": "Back", "callback": "d:back:{id}"}
+    ],
+    "callback_formats": {
+      "prefix": "d:{action}:{id}[:{arg}[:{page}]]",
+      "actions": ["noop", "moves", "evo", "loc", "weak", "mlist", "back"],
+      "moves_list": "d:mlist:{id}:{category}:{page}",
+      "categories": ["levelup", "tm", "tutor", "egg"],
+      "page_counter": "d:noop:0"
+    },
+    "moves_subpage": {
+      "category_picker_text": "<tg-emoji emoji-id=\"5915775824799211234\">💬</tg-emoji> How would you like to browse {name}'s moves?",
+      "category_buttons": [
+        {"label": "Level Up", "callback": "d:mlist:{id}:levelup:0"},
+        {"label": "TMs", "callback": "d:mlist:{id}:tm:0"},
+        {"label": "Tutor", "callback": "d:mlist:{id}:tutor:0", "note": "shown only when the species has tutor_moves (empty for every bundled species → only Egg remains in that row)"},
+        {"label": "Egg", "callback": "d:mlist:{id}:egg:0"}
+      ],
+      "list_message_header": "<b>{user_display_name}</b>\n│ /data {name}\n\n<b><i>{name} — {category_label} Moves</i></b>\n\n",
+      "category_labels": {"levelup": "Level Up", "tm": "TMs", "tutor": "Tutor", "egg": "Egg"},
+      "move_entry": "• <b>{move_name}</b> [ {Type} <tg-emoji…>fallback</tg-emoji> ]{method}\n↳ <tg-emoji emoji-id=\"5852666434345248654\">⚡</tg-emoji> Power: {power}  |  <tg-emoji emoji-id=\"5852987088013633510\">➡️</tg-emoji> Accuracy: {accuracy}  |  {category_icon} {category}",
+      "move_method_rule": "levelup: \" - Lv.{level}\" when level truthy (level 0 → no suffix); tm/tutor/egg: no suffix",
+      "category_icons": {"Physical": "<tg-emoji emoji-id=\"5852826430466957463\">☄️</tg-emoji>", "Special": "<tg-emoji emoji-id=\"5915945987108511688\">✨</tg-emoji>", "Status": "<tg-emoji emoji-id=\"5854846581219532134\">💤</tg-emoji>"},
+      "power_accuracy_null": "None",
+      "empty_text": "No moves found for this method.",
+      "footer": "Page: {page + 1}/{total_pages}",
+      "entries_separator": "one blank line after every move entry",
+      "per_page": 10,
+      "paging_buttons": [
+        {"label": "Prev", "callback": "d:mlist:{id}:{category}:{page-1}"},
+        {"label": "{page+1}/{total_pages}", "callback": "d:noop:0"},
+        {"label": "Next", "callback": "d:mlist:{id}:{category}:{page+1}"}
+      ]
+    },
+    "not_found_usage": {
+      "usage": "<tg-emoji emoji-id=\"5852987088013633510\">➡️</tg-emoji> Please specify a Pokémon.\n\nExample:\n<code>/data froakie</code>",
+      "not_found": "<tg-emoji emoji-id=\"5915894610709717241\">❌</tg-emoji> Pokémon not found.\n\nPlease check the name or Poké ID and try again."
+    },
+    "subpages_note": "4 sub-pages exist: moves (local dex data — implementable offline), evo (needs PokeAPI species + evolution-chain fetches; header \"{name} — Evolutions &amp; Forms\", lists Evolutions + Forms, \"does not evolve\" branch), loc (needs PokeAPI encounters fetch; header \"{name} — Locations\", 8 per page, \"No location data available.\", Prev/Next), weak (local type-effectiveness chart via _format_weakness; header \"{name} Type Weaknesses:\"). Port can ship Moves first; Evolutions/Locations need the network data layer, Weakness needs the type chart."
+  }
+}
